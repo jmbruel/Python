@@ -1,0 +1,17 @@
+>>> nombres = [5, 38, 10, 25]
+>>> mots = ["jambon", "fromage", "confiture", "chocolat"]
+>>> stuff = [5000, "Brigitte", 3.1416, ["Albert", "René", 1947]]
+>>> print nombres[2]
+10
+>>> print nombres[1:3]
+[38, 10]
+>>> print nombres[2:3]
+[10]
+>>> print nombres[2:]
+[10, 25]
+>>> print nombres[:2]
+[5, 38]
+>>> print nombres[-1]
+25
+>>> print nombres[-2]
+10

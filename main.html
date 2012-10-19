@@ -1,0 +1,3801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 8.6.8">
+<meta name="description" content="Notes de cours sur Python">
+<title>Notes Python</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
+  padding: 0;
+  margin: 0;
+}
+
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install(2);
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>Notes Python</h1>
+<span id="author">Cédric Gava (et Jean-Michel Bruel)</span><br>
+<span id="email" class="monospaced">&lt;<a href="mailto:gava.c@free.fr">gava.c@free.fr</a>&gt;</span><br>
+<span id="revnumber">version 1.0,</span>
+<span id="revdate">19/10/2012</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_avant_propos">1. Avant-Propos</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Ces notes de cours sont une version mise à jour des notes de cours de <a href="mailto:gava.c@free.fr">Cédric Gava</a>
+par Jean-Michel Bruel.
+Ce document a été généré par <a href="mailto:jean-michel.bruel@univ-tlse2.fr">Jean-Michel Bruel</a> via <a href="http://www.methods.co.nz/asciidoc">AsciiDoc</a> (version <span class="monospaced">8.6.8</span>) de <em>Stuart Rackham</em>.</p></div>
+<div class="paragraph"><p>Pour l&#8217;instant ce document est libre d&#8217;utilisation et géré par la <em>Licence Creative Commons</em>.
+<span class="image">
+<a class="image" href="http://creativecommons.org/licenses/by-sa/3.0/">
+<img alt="Licence Creative Commons" src="data:image/png;base64,
+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
+AABJRU5ErkJggg==">
+</a>
+</span>
+<a href="http://creativecommons.org/licenses/by-sa/3.0/">licence Creative Commons Paternité - Partage à l&#39;Identique 3.0 non transposé</a>.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction">2. Introduction</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Python est <strong>dynamique</strong> (l&#8217;interpréteur peut évaluer des chaînes de
+    caractères représentant des expressions ou des instructions Python),
+    <strong>orthogonal</strong> (un petit nombre de concepts suffit à engendrer des
+    constructions très riches), <strong>réflectif</strong> (il supporte la
+    <strong>métaprogrammation</strong>, par exemple la capacité pour un objet de se
+    rajouter ou de s&#8217;enlever des attributs ou des méthodes, ou même de
+    changer de classe en cours d&#8217;exécution) et <strong>introspectif</strong> (un grand
+    nombre d&#8217;outils de développement, comme le <strong>debugger</strong> ou le
+    <strong>profiler</strong>, sont implantés en Python lui-même).
+</p>
+</li>
+<li>
+<p>
+Comme <strong>Scheme</strong> ou <strong>SmallTalk</strong>, Python est dynamiquement typé. Tout
+    objet manipulable par le programmeur possède un type bien défini à
+    l&#8217;exécution, qui n&#8217;a pas besoin d'être déclaré à l&#8217;avance.
+</p>
+</li>
+<li>
+<p>
+Python possède actuellement deux implémentations. L&#8217;une,
+    <strong>interprétée</strong>, dans laquelle les programmes Python sont compilés
+    en instructions portables, puis exécutés par une machine virtuelle
+    (comme pour Java, avec une différence importante: Java étant
+    statiquement typé, il est beaucoup plus facile d&#8217;accélérer
+    l&#8217;exécution d&#8217;un programme Java que d&#8217;un programme Python).
+</p>
+</li>
+<li>
+<p>
+L&#8217;autre génère directement du <strong>bytecode</strong> Java.
+</p>
+</li>
+<li>
+<p>
+Python est <strong>extensible</strong>: comme <strong>Tcl</strong> ou <strong>Guile</strong>, on peut facilement
+    l&#8217;interfacer avec des bibliothèques C existantes. On peut aussi s&#8217;en servir comme d&#8217;un
+    langage d&#8217;extension pour des systèmes logiciels complexes.
+</p>
+</li>
+</ul></div>
+<div class="sect2">
+<h3 id="_mots_du_langage">2.1. Mots du langage</h3>
+<table class="tableblock frame-all grid-all"
+style="
+margin-left:auto; margin-right:auto;
+width:90%;
+">
+<caption class="title">Table 1. Mots réservés du langage</caption>
+<col style="width:16%;">
+<col style="width:16%;">
+<col style="width:16%;">
+<col style="width:16%;">
+<col style="width:16%;">
+<col style="width:16%;">
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">and</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">assert</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">break</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">class</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">continue</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">def</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">del</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">elif</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">else</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">except</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">exec</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">finally</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">for</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">from</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">global</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">if</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">import</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">in</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">is</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">lambda</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">not</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">or</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">pass</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">print</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">raise</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">return</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">try</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">while</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock">yield</p></td>
+<td class="tableblock halign-center valign-top" ><p class="tableblock"></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_bases">2.2. Bases</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print msg
+Quoi de neuf ?</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_priorité_des_opérations">2.3. Priorité des opérations</h3>
+<div class="paragraph"><p>L&#8217;acronyme <strong>PEMDAS</strong> :</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>P</strong> pour <strong><strong>parenthèses</strong></strong>. Ce sont elles qui ont la plus haute
+    priorité. Elles vous permettent donc de « forcer » l'évaluation
+    d&#8217;une expression dans l&#8217;ordre que vous voulez.<br>
+    Ainsi 2*(3-1)=4, et (1+1)**(5-2)=8.
+</p>
+</li>
+<li>
+<p>
+<strong>E</strong> pour <strong><strong>exposants</strong></strong>. Les exposants sont évalués ensuite, avant
+    les autres opérations.<br>
+        Ainsi 2**1+1=3 (et non 4), et 3*1**10=3 (et non
+    59049 !).
+</p>
+</li>
+<li>
+<p>
+<strong>M</strong> et <strong>D</strong> pour <strong><strong>multiplication</strong></strong> et <strong><strong>division</strong></strong>, qui ont la
+    même priorité. Elles sont évaluées avant l'<strong><strong>addition</strong></strong> <strong>A</strong> et la
+    <strong><strong>soustraction</strong></strong> <strong>S</strong>, lesquelles sont donc effectuées en dernier
+    lieu. Ainsi 2*3-1 = 5 (plutôt que 4), et 2/3-1 = -1.
+</p>
+</li>
+</ul></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Note" src="data:image/png;base64,
+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">
+</td>
+<td class="content">
+<div class="paragraph"><p>(Rappelez-vous que par défaut Python effectue une division
+<strong><strong>entière</strong></strong>)</p></div>
+</td>
+</tr></table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Tip" src="data:image/png;base64,
+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">
+</td>
+<td class="content">
+<div class="paragraph"><p>Ne comptez pas sur les priorités par défaut. Parenthésez! Votre code sera plus lisible.</p></div>
+</td>
+</tr></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_composition">2.4. Composition</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; h, m, s = 15, 27, 34
+&gt;&gt;&gt; print "nombre de secondes écoulées depuis minuit = ", h*3600 +m*60 + s
+nombre de secondes coules depuis minuit =  55654</pre>
+</div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Warning" src="data:image/png;base64,
+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
+/F/lgJiyQFHragAAAABJRU5ErkJggg==">
+</td>
+<td class="content">
+<div class="paragraph"><p>Attention cependant : il y a une limite à ce que vous pouvez combiner
+ainsi :</p></div>
+<div class="paragraph"><p>Ce que vous placez à la gauche du signe égale dans une expression doit
+toujours être une variable, et non une expression.</p></div>
+<div class="paragraph"><p><strong>m + 1 = b</strong> est tout à fait <strong><strong>illégal</strong></strong></p></div>
+</td>
+</tr></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contrôle_du_flux_d_instructions">3. Contrôle du flux d’instructions</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_opérateurs_de_comparaison">3.1. Opérateurs de comparaison</h3>
+<div class="paragraph"><p>La condition évaluée après l&#8217;instruction if peut contenir les
+<strong>opérateurs de comparaison</strong> suivants :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>x == y          # x est égal à y
+x != y          # x est différent de y
+x &gt; y           # x est plus grand que y
+x &lt; y           # x est plus petit que y
+x &gt;= y          # x est plus grand que, ou égal à y
+x &lt;= y          # x est plus petit que, ou égal à y</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_instructions_composées_blocs_d_8217_instructions">3.2. Instructions composées – Blocs d&#8217;instructions</h3>
+<div class="paragraph"><p><span class="image">
+<img alt="Python-notes_fichiers/image002.gif" width="30%" src="data:image/gif;base64,
+R0lGODlhiQChAPcAAAEBAQgHBwkIBw0NDRENDBMRESYiHisrKy4rJTAsJTMuKTIwJjYyKjk0Kzw3
+MD44MT06LkA8L0E8NEA9O0VBNkZBOElEOUhFNlBFPUpGQk1JPE5JQkxKSlNMQlBOPFJOSVtORlNQ
+PlRQTFZQRFhTRGJVSl1WS15YS1xZRVxZWGBZTGhaT2pcUWBdR2VeUWdgUmRhX2ViS3FiVmZjYWpj
+VHRkWGhlTWhlY25mWHhnW2poZm9oWXtpXW1qUXNsXH5tYHBuU4FuYXFvbndvYHdwYHNxVYRyZXtz
+Y3Z0WIh1aHh2WX54Zo15a3t6XIN7aoB8YpB8boB9X4mBboSCYpODcoyEcYiGZZuGdomHhoqHiImI
+ZJ+JeIyKaIyKiZKKdqOMfJaOeZCPa5GPkKqRfpOSbZuSfauSgJaVcJ6WgLCWhZmXcaCXgbKZhaOa
+hLSbiJ2cdKediKCfd6ifh6ifiLmfjbqgjaKid6yii6Wker+kkainfbCnjsOnk6mofrGoj7SqkcWq
+lcqtma6ugbCvhLivlLmwlc2wm72zmdK0nrW1hba1iba1tcC2m7i3iLi3uNO3obe4hre4iLi4hte4
+o8O5nrq6kLu6usa8oNy9pr2+jci+osC/jr7AjsDAjt/AqcPCwszCpcPDkePDrMfGmdDGqejHr8fI
+lMfImcnKldTKrMzMmdjNru7NtNrOsPDOtfLQts/RmtzRstLTnNPT0/XTutXVoeDVtfnWvNbYn9bY
+ouLYt/zZvtvboubbuv3bwdzdqunevd/f3d/gquvgve3hwP7hxuHipv7jyOTksuTmqubm5vHmw+bo
+rPPoxufpserrrfbryOzs7Prsyuztse/wsvDx8f3xzfLztPT2uf/20fb4tvb4uPb4xv/90f7+vP7+
+wv7+/v7/ygAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAAOIAIf8LSUNDUkdC
+RzEwMTL/AAAHqGFwcGwCIAAAbW50clJHQiBYWVogB9kAAgAZAAsAGgALYWNzcEFQUEwAAAAAYXBw
+bAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1hcHBsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALZGVzYwAAAQgAAABvZHNjbQAAAXgAAAVsY3BydAAABuQA
+AAA4d3RwdAAABxwAAAAUclhZWgAABzAAAAAUZ1hZWgAAB0QAAAAUYlhZWgAAB1gAAAAUclRSQwAA
+B2wAAAAOY2hhZAAAB3wAAAAsYlRSQwAAB2wAAAAOZ1RS/0MAAAdsAAAADmRlc2MAAAAAAAAAFEdl
+bmVyaWMgUkdCIFByb2ZpbGUAAAAAAAAAAAAAABRHZW5lcmljIFJHQiBQcm9maWxlAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABtbHVjAAAAAAAAAB4AAAAM
+c2tTSwAAACgAAAF4aHJIUgAAACgAAAGgY2FFUwAAACQAAAHIcHRCUgAAACYAAAHsdWtVQQAAACoA
+AAISZnJGVQAAACgAAAI8emhUVwAAABYAAAJkaXRJVAAAACgAAAJ6bmJOTwAAACYAAAKia29LUgAA
+ABYAAP8CyGNzQ1oAAAAiAAAC3mhlSUwAAAAeAAADAGRlREUAAAAsAAADHmh1SFUAAAAoAAADSnN2
+U0UAAAAmAAAConpoQ04AAAAWAAADcmphSlAAAAAaAAADiHJvUk8AAAAkAAADomVsR1IAAAAiAAAD
+xnB0UE8AAAAmAAAD6G5sTkwAAAAoAAAEDmVzRVMAAAAmAAAD6HRoVEgAAAAkAAAENnRyVFIAAAAi
+AAAEWmZpRkkAAAAoAAAEfHBsUEwAAAAsAAAEpHJ1UlUAAAAiAAAE0GFyRUcAAAAmAAAE8mVuVVMA
+AAAmAAAFGGRhREsAAAAuAAAFPgBWAWEAZQBvAGIAZQD/YwBuAP0AIABSAEcAQgAgAHAAcgBvAGYA
+aQBsAEcAZQBuAGUAcgBpAQ0AawBpACAAUgBHAEIAIABwAHIAbwBmAGkAbABQAGUAcgBmAGkAbAAg
+AFIARwBCACAAZwBlAG4A6AByAGkAYwBQAGUAcgBmAGkAbAAgAFIARwBCACAARwBlAG4A6QByAGkA
+YwBvBBcEMAQzBDAEOwRMBD0EOAQ5ACAEPwRABD4ERAQwBDkEOwAgAFIARwBCAFAAcgBvAGYAaQBs
+ACAAZwDpAG4A6QByAGkAcQB1AGUAIABSAFYAQpAadSgAIABSAEcAQgAggnJfaWPPj/AAUAByAG8A
+ZgBp/wBsAG8AIABSAEcAQgAgAGcAZQBuAGUAcgBpAGMAbwBHAGUAbgBlAHIAaQBzAGsAIABSAEcA
+QgAtAHAAcgBvAGYAaQBsx3y8GAAgAFIARwBCACDVBLhc0wzHfABPAGIAZQBjAG4A/QAgAFIARwBC
+ACAAcAByAG8AZgBpAGwF5AXoBdUF5AXZBdwAIABSAEcAQgAgBdsF3AXcBdkAQQBsAGwAZwBlAG0A
+ZQBpAG4AZQBzACAAUgBHAEIALQBQAHIAbwBmAGkAbADBAGwAdABhAGwA4QBuAG8AcwAgAFIARwBC
+ACAAcAByAG8AZgBpAGxmbpAaACAAUgBHAEIAIGPPj//wZYdO9k4AgiwAIABSAEcAQgAgMNcw7TDV
+MKEwpDDrAFAAcgBvAGYAaQBsACAAUgBHAEIAIABnAGUAbgBlAHIAaQBjA5MDtQO9A7kDugPMACAD
+wAPBA78DxgOvA7sAIABSAEcAQgBQAGUAcgBmAGkAbAAgAFIARwBCACAAZwBlAG4A6QByAGkAYwBv
+AEEAbABnAGUAbQBlAGUAbgAgAFIARwBCAC0AcAByAG8AZgBpAGUAbA5CDhsOIw5EDh8OJQ5MACAA
+UgBHAEIAIA4XDjEOSA4nDkQOGwBHAGUAbgBlAGwAIABSAEcAQgAgAFAAcgBvAGYAaQBsAGkAWQBs
+AGX/AGkAbgBlAG4AIABSAEcAQgAtAHAAcgBvAGYAaQBpAGwAaQBVAG4AaQB3AGUAcgBzAGEAbABu
+AHkAIABwAHIAbwBmAGkAbAAgAFIARwBCBB4EMQRJBDgEOQAgBD8EQAQ+BEQEOAQ7BEwAIABSAEcA
+QgZFBkQGQQAgBioGOQYxBkoGQQAgAFIARwBCACAGJwZEBjkGJwZFAEcAZQBuAGUAcgBpAGMAIABS
+AEcAQgAgAFAAcgBvAGYAaQBsAGUARwBlAG4AZQByAGUAbAAgAFIARwBCAC0AYgBlAHMAawByAGkA
+dgBlAGwAcwBldGV4dAAAAABDb3B5cmlnaHQgMjAwrzcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyBy
+ZXNlcnZlZC4AWFlaIAAAAAAAAPNSAAEAAAABFs9YWVogAAAAAAAAdE0AAD3uAAAD0FhZWiAAAAAA
+AABadQAArHMAABc0WFlaIAAAAAAAACgaAAAVnwAAuDZjdXJ2AAAAAAAAAAEBzQAAc2YzMgAAAAAA
+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
+vd7s3d4DERAAOw==">
+</span></p></div>
+<div class="paragraph"><p><strong>Ligne d&#8217;en-tête:</strong></p></div>
+<div class="paragraph"><p><strong>première instruction du bloc</strong></p></div>
+<div class="paragraph"><p><strong>&#8230; &#8230;</strong></p></div>
+<div class="paragraph"><p><strong>&#8230; &#8230;</strong></p></div>
+<div class="paragraph"><p><strong>dernière instruction du bloc</strong></p></div>
+<div class="paragraph"><p>S&#8217;il y a plusieurs instructions indentées sous la ligne d&#8217;en-tête,
+<strong><strong>elles doivent l'être exactement au même niveau.</strong></strong></p></div>
+<div class="paragraph"><p><strong><strong>Les limites des instructions et des blocs sont définies par la mise
+en page.</strong></strong> Sous Python, c&#8217;est le caractère de fin de ligne qui joue ce
+rôle.</p></div>
+<div class="paragraph"><p><strong><strong>Instruction composée =</strong></strong></p></div>
+<div class="paragraph"><p><strong><strong>En-tête  + double point + bloc d&#8217;instructions indenté</strong></strong></p></div>
+<div class="paragraph"><p> </p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_instructions_répétitives">4. Instructions répétitives</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ré_affectation">4.1. Ré-affectation</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; a, b, c, d = 3, 4, 5, 7</pre>
+</div></div>
+<div class="paragraph"><p>Supposons par exemple que nous voulions maintenant échanger les valeurs
+des variables <strong>a</strong> et <strong>c</strong>. Comment faire ?</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; a, b = b, a</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_remarque_concernant_les_caractères_accentués_et_spéciaux">4.2. Remarque concernant les caractères accentués et spéciaux</h3>
+<div class="paragraph"><p>A partir de la version 2.3, il est vivement recommandé aux francophones
+d&#8217;inclure l&#8217;un des pseudo-commentaires suivants au début de tous leurs
+scripts Python (obligatoirement à la 1e ou à la 2e ligne) :</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># -*- coding:Latin-1 -*-</span></span></tt></pre></div></div>
+<div class="paragraph"><p>Ou bien :</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># -*- coding:Utf-8 -*-</span></span></tt></pre></div></div>
+<div class="paragraph"><p>Ces pseudo-commentaires indiquent à Python que vous utiliserez dans
+votre script :</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+soit le jeu de caractères accentués correspondant aux principales
+    langues de l&#8217;Europe occidentale (Français, Italien, Portugais,
+    etc.), codé sur un seul octet suivant la norme ISO-8859.
+</p>
+</li>
+<li>
+<p>
+soit le système de codage mondial sur deux octets appelé Unicode
+    (dont la variante Utf-8 ne code que les caractères « spéciaux » sur
+    deux octets, les caractères du jeu ASCII standard restant codés sur
+    un seul octet). Ce dernier système commence à se répandre de plus en
+    plus, car il présente l&#8217;avantage de permettre la coexistence de
+    caractères de toutes origines dans le même document (caractères
+    grecs, arabes, cyrilliques, japonais, etc.)
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_principaux_types_de_données">5. Principaux types de données</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Seule la valeur zéro est « fausse ».</p></div>
+<div class="sect2">
+<h3 id="_les_types_integer_et_long">5.1. Les types « integer » et « long »</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; a, b, c = 1, 1, 1
+&gt;&gt;&gt; while c&lt;49:
+print c, " : ", b, type(b)
+a, b, c = b, a+b, c+1
+...
+...
+... (affichage des 43 premiers termes)
+...
+44 : 1134903170 &lt;type 'int'&gt;
+45 : 1836311903 &lt;type 'int'&gt;
+46 : 2971215073 &lt;type 'long'&gt;
+47 : 4807526976 &lt;type 'long'&gt;
+48 : 7778742049 &lt;type 'long'&gt;</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_le_type_float">5.2. Le type « float »</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; a, b, c = 1., 2., 1 # =&gt; a et b seront du type 'float'
+&gt;&gt;&gt; while c &lt;18:
+a, b, c = b, b*a, c+1
+print b</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_le_type_string_chaîne_de_caractères">5.3. Le type « string » (chaîne de caractères)</h3>
+<div class="paragraph"><p>Sous Python, une donnée de type <strong>string</strong> est une suite quelconque de
+caractères délimitée soit par des apostrophes (<strong>simple quotes</strong>), soit
+par des guillemets (<strong>double quotes</strong>).</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; phrase1 = 'les oeufs durs.'**
+&gt;&gt;&gt; phrase2 = '"Oui", répondit-il,'**
+&gt;&gt;&gt; phrase3 = "j'aime bien"**
+&gt;&gt;&gt; print phrase2, phrase3, phrase1**
+"Oui", répondit-il, j'aime bien les oeufs durs.</pre>
+</div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Note" src="data:image/png;base64,
+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">
+</td>
+<td class="content">
+<div class="paragraph"><p>Remarquez aussi encore une fois que l&#8217;instruction <strong>print</strong> insère un
+espace entre les éléments affichés.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Le caractère spécial «  » (<strong>antislash</strong>) permet quelques subtilités complémentaires :</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+En premier lieu, il permet d'écrire sur plusieurs lignes une
+    commande qui serait trop longue pour tenir sur une seule (cela vaut
+    pour n&#8217;importe quel type de commande).
+</p>
+</li>
+<li>
+<p>
+A l&#8217;intérieur d&#8217;une chaîne de caractères, l'<strong>antislash</strong> permet
+    d&#8217;insérer un certain nombre de codes spéciaux (sauts à la ligne,
+    apostrophes, guillemets, etc.).
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Exemples :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; txt3 = '"N'est-ce pas ?" répondit-elle.'
+&gt;&gt;&gt; print txt3
+"N'est-ce pas ?" répondit-elle.</pre>
+</div></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; Salut = "Ceci est une chaîne plutôt longuen contenant plusieurs lignes
+    de texte (Ceci fonctionne\n de la même façon en C/C++.\n\
+    Notez que les blancs en début\n de ligne sont significatifs.\n"
+&gt;&gt;&gt; print Salut
+Ceci est une chane plutt longue
+ contenant plusieurs lignes     de texte (Ceci fonctionne
+ de la mme faon en C/C++.
+    Notez que les blancs en dbut
+ de ligne sont significatifs.</pre>
+</div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Note" src="data:image/png;base64,
+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">
+</td>
+<td class="content">
+<div class="ulist"><ul>
+<li>
+<p>
+La séquence <span class="monospaced">\n</span> dans une chaîne provoque un saut à la ligne.
+</p>
+</li>
+<li>
+<p>
+La séquence <span class="monospaced">\'</span> permet d&#8217;insérer une apostrophe dans une chaîne
+    délimitée par des apostrophes
+</p>
+</li>
+<li>
+<p>
+Rappelons encore ici que la casse est significative dans les noms de
+    variables (Il faut respecter scrupuleusement le choix initial de
+    majuscules ou minuscules).
+</p>
+</li>
+</ul></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>« Triple quotes » :</p></div>
+<div class="paragraph"><p>Pour insérer plus aisément des caractères spéciaux ou « exotiques » dans
+une chaîne, sans faire usage de l'<strong>antislash</strong>, ou pour faire accepter l'<strong>antislash</strong> lui-même
+dans la chaîne, on peut encore délimiter la chaîne à l&#8217;aide de <strong>triples guillemets</strong> ou de <strong>triples
+apostrophes</strong> :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; a1 = """
+... Usage: trucmuche[OPTIONS]
+... { -h
+... -H hôte
+... }"""
+&gt;&gt;&gt; print a1
+Usage: trucmuche[OPTIONS]
+{ -h
+-H hôte
+}</pre>
+</div></div>
+<div class="paragraph"><p>Accès aux caractères individuels d&#8217;une chaîne</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ch = "Stéphanie"
+&gt;&gt;&gt; print ch[0], ch[3]
+S p</pre>
+</div></div>
+<div class="paragraph"><p>Opérations élémentaires sur les chaînes par fonctions
+<strong>concaténation</strong> et on la réalise sous Python à l&#8217;aide de l&#8217;opérateur +.</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; a = 'Petit poisson'
+&gt;&gt;&gt; b = ' deviendra grand'
+&gt;&gt;&gt; c = a + b
+&gt;&gt;&gt; print c
+petit poisson deviendra grand</pre>
+</div></div>
+<div class="paragraph"><p><strong>len() :</strong></p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print len(c)</pre>
+</div></div>
+<div class="paragraph"><p><strong>Convertir nombre en chaîne</strong></p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ch = '8647'
+&gt;&gt;&gt; print ch + 45
+==&gt; * erreur * on ne peut pas additionner une chaîne et un
+nombre
+&gt;&gt;&gt; n = int(ch)
+&gt;&gt;&gt; print n + 65
+8712</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_les_listes_première_approche">5.4. Les listes (première approche)</h3>
+<div class="paragraph"><p>les <strong>listes</strong>, les <strong>tuples*et les *dictionnaires</strong>.</p></div>
+<div class="paragraph"><p>Sous Python, on peut définir une liste comme <strong>une collection
+d'éléments séparés par des virgules, l&#8217;ensemble étant enfermé dans des
+crochets</strong></p></div>
+<div class="paragraph"><p>Exemple :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; jour = ['lundi', 'mardi', 'mercredi', 1800, 20.357, 'jeudi',
+'vendredi']
+&gt;&gt;&gt; print jour
+['lundi', 'mardi', 'mercredi', 1800, 20.357, 'jeudi', 'vendredi']
+&gt;&gt;&gt; print jour[2]
+mercredi
+&gt;&gt;&gt; print jour[4]
+20.357
+&gt;&gt;&gt; len(jour)
+7
+&gt;&gt;&gt; del(jour[4])
+&gt;&gt;&gt; print jour
+['lundi', 'mardi', 'mercredi', 'juillet', 'jeudi', 'vendredi']</pre>
+</div></div>
+<div class="paragraph"><p>Les listes (objet)</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; jour.append('samedi')
+&gt;&gt;&gt; print jour
+['lundi', 'mardi', 'mercredi', 'juillet', 'jeudi', 'vendredi',
+'samedi']</pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fonctions_prédéfinies">6. Fonctions prédéfinies</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_interaction_avec_l_8217_utilisateur_la_fonction_input">6.1. Interaction avec l&#8217;utilisateur : la fonction input()</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print 'Veuillez entrer un nombre positif quelconque : ', nn = input()
+&gt;&gt;&gt; print 'Le carré de', nn, 'vaut', nn**2</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+La fonction <span class="monospaced">input()</span> renvoie une valeur dont le type correspond à
+    ce que l&#8217;utilisateur a entré. Dans notre exemple, la variable
+    <span class="monospaced">nn</span> contiendra donc un entier, une chaîne de caractères, un réel,
+    etc. suivant ce que l&#8217;utilisateur aura décidé. Si l&#8217;utilisateur
+    souhaite entrer une chaîne de caractères, il doit l&#8217;entrer comme
+    telle, <strong>c&#8217;est-à-dire incluse entre des apostrophes ou des
+    guillemets</strong>. Nous verrons plus loin qu&#8217;un bon script doit
+    toujours vérifier si le type ainsi entré correspond bien à ce que
+    l&#8217;on attend pour la suite du programme.
+</p>
+</li>
+<li>
+<p>
+Pour cette raison, il sera souvent préférable d&#8217;utiliser dans vos
+    scripts la fonction similaire <span class="monospaced">raw_input()</span>, laquelle renvoie
+    toujours <strong>une chaîne de caractères</strong>. Vous pouvez ensuite
+    convertir cette chaîne en nombre à l&#8217;aide de <span class="monospaced">int()</span> ou de
+    <span class="monospaced">float()</span>.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Exemple :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; a = raw_input('Entrez une donnée : ')
+Entrez une donnée : 52.37
+&gt;&gt;&gt; type(a)
+&lt;type 'str'&gt;
+&gt;&gt;&gt; b = float(a) # conversion en valeur numérique
+&gt;&gt;&gt; type(b)
+&lt;type 'float'&gt;</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_importer_un_module_de_fonctions">6.2. Importer un module de fonctions</h3>
+<div class="paragraph"><p>Démo : utilisation des fonctions du module <span class="monospaced">&lt;math&gt;</span></p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># -*- coding:Utf-8 -*-</span></span>
+<span style="font-weight: bold"><span style="color: #000080">from</span></span> math <span style="font-weight: bold"><span style="color: #000080">import</span></span> <span style="color: #990000">*</span>
+nombre <span style="color: #990000">=</span> <span style="color: #993399">121</span>
+angle <span style="color: #990000">=</span> pi<span style="color: #990000">/</span><span style="color: #993399">6</span> <span style="font-style: italic"><span style="color: #9A1900"># soit 30° (la bibliothèque math inclut aussi la définition de pi)</span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">'racine carrée de'</span><span style="color: #990000">,</span> nombre<span style="color: #990000">,</span> <span style="color: #FF0000">'='</span><span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #000000">sqrt</span></span><span style="color: #990000">(</span>nombre<span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">'sinus de'</span><span style="color: #990000">,</span> angle<span style="color: #990000">,</span> <span style="color: #FF0000">'radians'</span><span style="color: #990000">,</span> <span style="color: #FF0000">'='</span><span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #000000">sin</span></span><span style="color: #990000">(</span>angle<span style="color: #990000">)</span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_contrôle_du_flux_utilisation_d_8217_une_liste_simple">6.3. Contrôle du flux - Utilisation d&#8217;une liste simple</h3>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># -*- coding:Utf-8 -*-</span></span>
+<span style="font-style: italic"><span style="color: #9A1900"># Utilisation d'une liste et de branchements conditionnels</span></span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Ce script recherche le plus grand de trois nombres"</span>
+<span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">'Veuillez entrer trois nombres séparés par des virgules : '</span>
+
+<span style="font-style: italic"><span style="color: #9A1900"># Note : la fonction list() convertit en liste la séquence de données qu'on</span></span>
+<span style="font-style: italic"><span style="color: #9A1900"># lui fournit en argument. L'instruction ci-dessous convertira donc les</span></span>
+<span style="font-style: italic"><span style="color: #9A1900"># données fournies par l'utilisateur en une liste nn :</span></span>
+
+nn <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">list</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">input</span></span><span style="color: #990000">())</span>
+max<span style="color: #990000">,</span> index <span style="color: #990000">=</span> nn<span style="color: #990000">[</span><span style="color: #993399">0</span><span style="color: #990000">],</span> <span style="color: #FF0000">'premier'</span>
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> nn<span style="color: #990000">[</span><span style="color: #993399">1</span><span style="color: #990000">]</span> <span style="color: #990000">&gt;</span> max<span style="color: #990000">:</span> <span style="font-style: italic"><span style="color: #9A1900"># ne pas omettre le double point !</span></span>
+        max <span style="color: #990000">=</span> nn<span style="color: #990000">[</span><span style="color: #993399">1</span><span style="color: #990000">]</span>
+        index <span style="color: #990000">=</span> <span style="color: #FF0000">'second'</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> nn<span style="color: #990000">[</span><span style="color: #993399">2</span><span style="color: #990000">]</span> <span style="color: #990000">&gt;</span> max<span style="color: #990000">:</span>
+                max <span style="color: #990000">=</span> nn<span style="color: #990000">[</span><span style="color: #993399">2</span><span style="color: #990000">]</span>
+                index <span style="color: #990000">=</span> <span style="color: #FF0000">'troisième'</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Le plus grand de ces nombres est"</span><span style="color: #990000">,</span> max
+                <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Ce nombre est le"</span><span style="color: #990000">,</span> index<span style="color: #990000">,</span> <span style="color: #FF0000">"de votre liste."</span></tt></pre></div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_boucle_while_instructions_imbriquées">7. Boucle while - Instructions imbriquées</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># -*- coding:Utf-8 -*-</span></span>
+<span style="font-style: italic"><span style="color: #9A1900"># Instructions composées &lt;while&gt; - &lt;if&gt; - &lt;elif&gt; - &lt;else&gt;</span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">'Choisissez un nombre de 1 à 3 (ou zéro pour terminer) '</span>
+a <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">input</span></span><span style="color: #990000">()</span>
+<span style="font-weight: bold"><span style="color: #0000FF">while</span></span> a <span style="color: #990000">!=</span> <span style="color: #993399">0</span><span style="color: #990000">:</span> <span style="font-style: italic"><span style="color: #9A1900"># l'opérateur != signifie "différent de"</span></span>
+        <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> a <span style="color: #990000">==</span> <span style="color: #993399">1</span><span style="color: #990000">:</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Vous avez choisi un :"</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"le premier, l'unique, l'unité ..."</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">elif</span></span> a <span style="color: #990000">==</span> <span style="color: #993399">2</span><span style="color: #990000">:</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Vous préférez le deux :"</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"la paire, le couple, le duo ..."</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">elif</span></span> a <span style="color: #990000">==</span> <span style="color: #993399">3</span><span style="color: #990000">:</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Vous optez pour le plus grand des trois :"</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"le trio, la trinité, le triplet ..."</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">else</span></span><span style="color: #990000">:</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Un nombre entre UN et TROIS, s.v.p."</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">'Choisissez un nombre de 1 à 3 (ou zéro pour terminer) '</span>
+        a <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">input</span></span><span style="color: #990000">()</span>
+<span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Vous avez entré zéro :"</span>
+<span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"L'exercice est donc terminé."</span></tt></pre></div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fonctions_originales">8. Fonctions originales</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">nomDeLaFonction</span></span><span style="color: #990000">(*</span>liste de paramètres<span style="color: #990000">*):</span>
+<span style="color: #990000">...</span>
+<span style="color: #990000">*</span>bloc d'instructions<span style="color: #990000">*</span>
+<span style="color: #990000">...</span></tt></pre></div></div>
+<div class="paragraph"><p>Avec valeur retournéer</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># -*- coding:Utf-8 -*-</span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">table</span></span><span style="color: #990000">(</span>base<span style="color: #990000">):</span>
+        result <span style="color: #990000">=</span> <span style="color: #990000">[]</span> <span style="font-style: italic"><span style="color: #9A1900"># result est d'abord une liste vide</span></span>
+        n <span style="color: #990000">=</span> <span style="color: #993399">1</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">while</span></span> n <span style="color: #990000">&lt;</span> <span style="color: #993399">11</span><span style="color: #990000">:</span>
+                b <span style="color: #990000">=</span> n <span style="color: #990000">*</span> base
+                result<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">append</span></span><span style="color: #990000">(</span>b<span style="color: #990000">)</span> <span style="font-style: italic"><span style="color: #9A1900"># ajout d'un terme à la liste</span></span>
+                n <span style="color: #990000">=</span> n <span style="color: #990000">+</span><span style="color: #993399">1</span> <span style="font-style: italic"><span style="color: #9A1900"># (voir explications ci-dessous)</span></span>
+        <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> result</tt></pre></div></div>
+<div class="paragraph"><p>En fait, le corps principal d&#8217;un programme Python constitue lui-même une
+entité un peu particulière, qui est toujours reconnue dans le
+fonctionnement interne de l&#8217;interpréteur sous le nom réservé
+<span class="monospaced"><em>main</em></span> (le mot <span class="monospaced">main</span> signifie « principal », en anglais. Il
+est encadré par des caractères « souligné » en double, pour éviter toute
+confusion avec d&#8217;autres symboles). L&#8217;exécution d&#8217;un script commence
+toujours avec la première instruction de cette entité <span class="monospaced"><em>main</em></span>,
+où qu&#8217;elle puisse se trouver dans le listing. Les instructions qui
+suivent sont alors exécutées l&#8217;une après l&#8217;autre, dans l&#8217;ordre, jusqu&#8217;au
+premier appel de fonction. Un appel de fonction est comme un détour dans
+le flux de l&#8217;exécution : au lieu de passer à l&#8217;instruction suivante,
+l&#8217;interpréteur exécute la fonction appelée, puis revient au programme
+appelant pour continuer le travail interrompu. Pour que ce mécanisme
+puisse fonctionner, il faut que l&#8217;interpréteur ait pu lire la définition
+de la fonction <strong>avant</strong> l&#8217;entité <span class="monospaced"><em>main</em></span>, et celle-ci sera
+donc placée en général à la fin du script.</p></div>
+<div class="sect2">
+<h3 id="_documentation_de_fonction">8.1. Documentation de fonction</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; def essai():
+... "Cette fonction est bien documentée mais ne fait presque rien."
+... print "rien à signaler"
+&gt;&gt;&gt; essai()
+rien à signaler
+&gt;&gt;&gt; print essai.__doc__
+Cette fonction est bien documentée mais ne fait presque rien.</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_typage_des_paramètres">8.2. Typage des paramètres</h3>
+<div class="paragraph"><p>Le type d&#8217;un paramètre sera le même que celui
+de l&#8217;argument qui aura été transmis à la fonction.</p></div>
+<div class="paragraph"><p>Exemple :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; def afficher3fois(arg):
+... print arg, arg, arg
+&gt;&gt;&gt; afficher3fois(5)
+5 5 5
+&gt;&gt;&gt; afficher3fois('zut')
+zut zut zut
+&gt;&gt;&gt; afficher3fois([5, 7])
+[5, 7] [5, 7] [5, 7]
+&gt;&gt;&gt; afficher3fois(6**2)
+36 36 36</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_valeurs_par_défaut_pour_les_paramètres">8.3. Valeurs par défaut pour les paramètres</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; def politesse(nom, vedette ='Monsieur'):
+... print "Veuillez agréer ,", vedette, nom, ", mes salutations
+distinguées."
+&gt;&gt;&gt; politesse('Dupont')
+Veuillez agréer , Monsieur Dupont , mes salutations distinguées.
+&gt;&gt;&gt; politesse('Durand', 'Mademoiselle')
+Veuillez agréer , Mademoiselle Durand , mes salutations distinguées.</pre>
+</div></div>
+<div class="paragraph"><p>Dans ce cas, cependant, les paramètres sans valeur par défaut doivent
+précéder les autres dans la liste.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_arguments_avec_étiquettes">8.4. Arguments avec étiquettes</h3>
+<div class="paragraph"><p>On peut faire appel à la fonction en fournissant les arguments
+correspondants dans n&#8217;importe quel ordre, à la condition de désigner nommément les
+paramètres correspondants.</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; def oiseau(voltage=100, etat='allumé', action='danser la java'):
+... print 'Ce perroquet ne pourra pas', action
+... print 'si vous le branchez sur', voltage, 'volts !'
+... print "L'auteur de ceci est complètement", etat
+&gt;&gt;&gt; oiseau(etat='givré', voltage=250, action='vous approuver')
+Ce perroquet ne pourra pas vous approuver si vous le branchez sur 250 volts !
+L'auteur de ceci est complètement givré</pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_utilisation_de_fenêtres_et_de_graphismes">9. Utilisation de fenêtres et de graphismes</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Avec Python, la bibliothèque graphique la plus utilisée jusqu'à présent
+est la bibliothèque <strong>Tkinter</strong>, qui est une adaptation de la
+bibliothèque <strong>Tk</strong> développée à l&#8217;origine pour le langage <strong>Tcl</strong>.
+Plusieurs autres bibliothèques graphiques fort intéressantes ont été
+proposées pour Python : <strong>wxPython</strong>, <strong>pyQT</strong>, <strong>pyGTK</strong>, etc. Il existe également des
+possibilités d&#8217;utiliser les bibliothèques de <strong>widgetsJava</strong> et les
+<strong>MFC*de *Windows</strong>.</p></div>
+<div class="paragraph"><p>Les classes de widgets Tkinter</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Note" src="data:image/png;base64,
+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">
+</td>
+<td class="content">
+<div class="paragraph"><p>Au long de ce cours, nous vous présenterons petit à petit
+le mode d&#8217;utilisation d&#8217;un certain nombre de widgets. Comprenez bien
+cependant qu&#8217;il n&#8217;entre pas dans nos intentions de fournir ici un manuel
+de référence complet sur Tkinter. Nous limiterons nos explications aux
+widgets qui nous semblent les plus intéressants d&#8217;un point de vue
+didactique, c&#8217;est-à-dire ceux qui pourront nous aider à mettre en
+évidence des concepts importants, tel le concept de classe.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Widget</p></div>
+<div class="paragraph"><p>Description</p></div>
+<div class="paragraph"><p>Button</p></div>
+<div class="paragraph"><p>Un bouton classique, à utiliser pour provoquer l&#8217;exécution d&#8217;une
+commande quelconque.</p></div>
+<div class="paragraph"><p>Canvas</p></div>
+<div class="paragraph"><p>Un espace pour disposer divers éléments graphiques. Ce widget peut être
+utilisé pour dessiner, créer des éditeurs graphiques, et aussi pour
+implémenter des widgets personnalisés.</p></div>
+<div class="paragraph"><p>Checkbutton</p></div>
+<div class="paragraph"><p>Une « case à cocher » qui peut prendre deux états distincts (la case est
+cochée ou non). Un clic sur ce widget provoque le changement d'état.</p></div>
+<div class="paragraph"><p>Entry</p></div>
+<div class="paragraph"><p>Un champ d&#8217;entrée, dans lequel l&#8217;utilisateur du programme pourra insérer
+un texte quelconque à partir du clavier.</p></div>
+<div class="paragraph"><p>Frame</p></div>
+<div class="paragraph"><p>Une surface rectangulaire dans la fenêtre, où l&#8217;on peut disposer
+d&#8217;autres widgets.Cette surface peut être colorée. Elle peut aussi être
+décorée d&#8217;une bordure.</p></div>
+<div class="paragraph"><p>Label</p></div>
+<div class="paragraph"><p>Un texte (ou libellé) quelconque (éventuellement une image).</p></div>
+<div class="paragraph"><p>Listbox</p></div>
+<div class="paragraph"><p>Une liste de choix proposés à l&#8217;utilisateur, généralement présentés dans
+une sorte de boîte. On peut également configurer la Listbox de telle
+manière qu&#8217;elle se comporte comme une série de « boutons radio » ou de
+cases à cocher.</p></div>
+<div class="paragraph"><p>Menu</p></div>
+<div class="paragraph"><p>Un menu. Ce peut être un menu déroulant attaché à la barre de titre, ou
+bien un menu « pop up » apparaissant n&#8217;importe où à la suite d&#8217;un clic.</p></div>
+<div class="paragraph"><p>Menubutton</p></div>
+<div class="paragraph"><p>Un bouton-menu, à utiliser pour implémenter des menus déroulants.</p></div>
+<div class="paragraph"><p>Message</p></div>
+<div class="paragraph"><p>Permet d&#8217;afficher un texte. Ce widget est une variante du widget Label,
+qui permet d&#8217;adapter automatiquement le texte affiché à une certaine
+taille ou à un certain rapport largeur/hauteur.</p></div>
+<div class="paragraph"><p>Radiobutton</p></div>
+<div class="paragraph"><p>Représente (par un point noir dans un petit cercle) une des valeurs
+d&#8217;une variable qui peut en posséder plusieurs. Cliquer sur un « bouton
+radio » donne la valeur correspondante à la variable, et "vide" tous les
+autres boutons radio associés à la même variable.</p></div>
+<div class="paragraph"><p>Scale</p></div>
+<div class="paragraph"><p>Vous permet de faire varier de manière très visuelle la valeur d&#8217;une
+variable, en déplaçant un curseur le long d&#8217;une règle.</p></div>
+<div class="paragraph"><p>Scrollbar</p></div>
+<div class="paragraph"><p>« ascenseur » ou « barre de défilement » que vous pouvez utiliser en
+association avec les autres widgets : Canvas, Entry, Listbox, Text.</p></div>
+<div class="paragraph"><p>Text</p></div>
+<div class="paragraph"><p>Affichage de texte formaté. Permet aussi à l&#8217;utilisateur d'éditer le
+texte affiché. Des images peuvent également être insérées.</p></div>
+<div class="paragraph"><p>Toplevel</p></div>
+<div class="paragraph"><p>Une fenêtre affichée séparément, « par-dessus ».</p></div>
+<div class="paragraph"><p>Ces classes de <strong>widgets</strong> intègrent chacune un grand nombre de méthodes.
+On peut aussi leur associer (lier) des événements, comme nous venons de
+le voir dans les pages précédentes. Vous allez apprendre en outre que
+tous ces widgets peuvent être positionnés dans les fenêtres à l&#8217;aide de
+trois méthodes différentes : la méthode grid(), la méthode
+pack() et la méthode place().</p></div>
+<div class="sect2">
+<h3 id="_composition_d_8217_instructions_pour_écrire_un_code_plus_compact">9.1. Composition d&#8217;instructions pour écrire un code plus compact</h3>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>txt1 <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">Label</span></span><span style="color: #990000">(</span>fen1<span style="color: #990000">,</span> text <span style="color: #990000">=</span><span style="color: #FF0000">'Premier champ :'</span><span style="color: #990000">)</span>
+txt1<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">grid</span></span><span style="color: #990000">(</span>row <span style="color: #990000">=</span><span style="color: #993399">1</span><span style="color: #990000">,</span> sticky <span style="color: #990000">=</span>E<span style="color: #990000">)</span></tt></pre></div></div>
+<div class="paragraph"><p>du script précédent par une seule, telle que :</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000000">Label</span></span><span style="color: #990000">(</span>fen1<span style="color: #990000">,</span> text <span style="color: #990000">=</span><span style="color: #FF0000">'Premier champ :'</span><span style="color: #990000">).</span><span style="font-weight: bold"><span style="color: #000000">grid</span></span><span style="color: #990000">(</span>row <span style="color: #990000">=</span><span style="color: #993399">1</span><span style="color: #990000">,</span> sticky <span style="color: #990000">=</span>E<span style="color: #990000">)</span></tt></pre></div></div>
+<div class="paragraph"><p>Dans cette nouvelle écriture, vous pouvez constater que nous faisons
+l'économie de la variable intermédiaire <span class="monospaced">txt1</span>.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_les_fichiers">10. Les fichiers</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_noms_de_fichiers_répertoire_courant">10.1. Noms de fichiers - Répertoire courant</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; from os import chdir
+&gt;&gt;&gt; chdir("/home/jules/exercices")</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_les_deux_formes_d_8217_importation">10.2. Les deux formes d&#8217;importation</h3>
+<div class="paragraph"><p>Voici un exemple de la première méthode :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; import os
+&gt;&gt;&gt; rep_cour = os.getcwd()
+&gt;&gt;&gt; print rep_cour
+/Users/bruel/dev/asciidoc/Python</pre>
+</div></div>
+<div class="paragraph"><p> 
+La première ligne de cet exemple importe <strong>l&#8217;intégralité</strong> du module
+os, lequel contient de nombreuses fonctions intéressantes pour l&#8217;accès au système
+d&#8217;exploitation. La seconde ligne utilise la fonction <span class="monospaced">getcwd()</span> du
+module <span class="monospaced">os</span>. Comme vous pouvez le constater, la fonction
+<span class="monospaced">getcwd()</span> renvoie le nom du répertoire courant (<span class="monospaced">getcwd</span> = <em>get current
+working directory</em>*).</p></div>
+<div class="paragraph"><p>Par comparaison, voici un exemple similaire utilisant la seconde méthode
+d&#8217;importation :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; from os import getcwd
+&gt;&gt;&gt; rep_cour = getcwd()
+&gt;&gt;&gt; print rep_cour
+/Users/bruel/dev/asciidoc/Python</pre>
+</div></div>
+<div class="paragraph"><p> 
+Nous pouvons de la même manière importer plusieurs fonctions du même
+module :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; from math import sqrt, pi, sin, cos
+&gt;&gt;&gt; print pi
+3.14159265359
+&gt;&gt;&gt; print sqrt(5) # racine carrée de 5
+2.2360679775
+&gt;&gt;&gt; print sin(pi/6) # sinus d'un angle de 30°
+0.5</pre>
+</div></div>
+<div class="paragraph"><p> </p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>from Tkinter import *</pre>
+</div></div>
+<div class="paragraph"><p>Cette méthode d&#8217;importation présente l&#8217;avantage d&#8217;alléger l'écriture du
+code. Elle présente l&#8217;inconvénient (surtout dans sa dernière forme,
+celle qui importe toutes les fonctions d&#8217;un module) d&#8217;encombrer l&#8217;espace
+de noms courant.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_écriture_séquentielle_dans_un_fichier">10.3. Écriture séquentielle dans un fichier</h3>
+<div class="paragraph"><p>Sous Python, l&#8217;accès aux fichiers est assuré par l&#8217;intermédiaire d&#8217;un
+« <strong>objet-fichier</strong> » que l&#8217;on crée à l&#8217;aide de la fonction interne
+<span class="monospaced">open()</span>. Après avoir appelé cette fonction, vous pouvez lire et
+écrire dans le fichier en utilisant les méthodes spécifiques de cet
+objet-fichier.</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; obFichier = open('Monfichier','a')
+&gt;&gt;&gt; obFichier.write('Bonjour, fichier !')
+&gt;&gt;&gt; obFichier.write("Quel beau temps, aujourd'hui !")
+&gt;&gt;&gt; obFichier.close()</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_lecture_séquentielle_d_8217_un_fichier">10.4. Lecture séquentielle d&#8217;un fichier</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ofi = open('Monfichier', 'r')
+&gt;&gt;&gt; t = ofi.read()
+&gt;&gt;&gt; print t
+Bonjour, fichier !Quel beau temps, aujourd'hui !
+&gt;&gt;&gt; ofi.close()</pre>
+</div></div>
+<div class="paragraph"><p>Comme on pouvait s&#8217;y attendre, la méthode read()lit les données
+présentes dans le fichier et les transfère dans une variable de type «
+chaîne » (<strong>string</strong>) . Si on utilise cette méthode sans argument, la
+totalité du fichier est transférée.
+ 
+La méthode <span class="monospaced">read()</span> peut également être utilisée avec un argument.
+Celui-ci indiquera combien de caractères doivent être lus, à partir de
+la position déjà atteinte dans le fichier :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ofi = open('Monfichier', 'r')
+&gt;&gt;&gt; t = ofi.read(7)
+&gt;&gt;&gt; print t
+Bonjour
+&gt;&gt;&gt; t = ofi.read(15)
+&gt;&gt;&gt; print t
+, fichier !Quel</pre>
+</div></div>
+<div class="paragraph"><p>Si la fin du fichier est déjà atteinte, <span class="monospaced">read()</span> renvoie une chaîne
+vide</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; t = ofi.read()
+&gt;&gt;&gt; print t
+&gt;&gt;&gt; ofi.close()</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_l_8217_instruction_break_pour_sortir_d_8217_une_boucle">10.5. L&#8217;instruction break pour sortir d&#8217;une boucle</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>def copieFichier(source, destination):
+        "copie intégrale d'un fichier"
+        fs = open(source, 'r')
+        fd = open(destination, 'w')
+        while 1:
+                txt = fs.read(50)
+                if txt =="":
+                        break
+                fd.write(txt)
+                fs.close()
+        fd.close()
+return</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_fichiers_texte">10.6. Fichiers texte</h3>
+<div class="paragraph"><p>La méthode readline(), par exemple, ne lit qu&#8217;une seule ligne à la
+fois (en incluant le caractère de fin de ligne) :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; f = open('Fichiertexte','r')
+&gt;&gt;&gt; t = f.readline()
+&gt;&gt;&gt; print t
+Ceci est la ligne un
+&gt;&gt;&gt; print f.readline()
+Voici la ligne deux</pre>
+</div></div>
+<div class="paragraph"><p>La méthode readlines()transfère toutes les lignes restantes dans une
+liste de chaînes :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; t = f.readlines()
+&gt;&gt;&gt; print t
+['Voici la ligne trois012', 'Voici la ligne quatre012']
+&gt;&gt;&gt; f.close()</pre>
+</div></div>
+<div class="paragraph"><p>Le script qui suit vous montre comment créer une fonction destinée à
+effectuer un certain</p></div>
+<div class="paragraph"><p>traitement sur un fichier texte. En l&#8217;occurrence, il s&#8217;agit ici de
+recopier un fichier texte en omettant</p></div>
+<div class="paragraph"><p>toutes les lignes qui commencent par un caractère <em>#</em> :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>def filtre(source,destination):
+        "recopier un fichier en éliminant les lignes de remarques"
+        fs = open(source, 'r')
+        fd = open(destination, 'w')
+        while 1:
+                txt = fs.readline()
+                        if txt =='':
+                                break
+                        if txt[0] != '#':
+                                fd.write(txt)
+                fs.close()
+        fd.close()
+return</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_enregistrement_et_restitution_de_variables_diverses">10.7. Enregistrement et restitution de variables diverses</h3>
+<div class="paragraph"><p>L&#8217;argument de la méthode write()doit être une chaîne de caractères.
+Avec ce que nous avons appris jusqu'à présent, nous ne pouvons donc
+enregistrer d&#8217;autres types de valeurs qu&#8217;en les transformant d&#8217;abord en
+chaînes de caractères.</p></div>
+<div class="paragraph"><p>Nous pouvons réaliser cela à l&#8217;aide de la fonction intégrée str():</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; x = 52
+&gt;&gt;&gt; f.write(str(x))</pre>
+</div></div>
+<div class="paragraph"><p>Problème : tous les types stockés sont des strings</p></div>
+<div class="paragraph"><p>Il existe plusieurs solutions à ce genre de problèmes. L&#8217;une des
+meilleures consiste à importer un module Python spécialisé : le module
+pickle. Voici comment il s&#8217;utilise :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; import pickle
+&gt;&gt;&gt; f = open('Monfichier', 'w')
+&gt;&gt;&gt; pickle.dump(a, f)
+&gt;&gt;&gt; pickle.dump(b, f)
+&gt;&gt;&gt; pickle.dump(c, f)
+&gt;&gt;&gt; f.close()
+&gt;&gt;&gt; f = open('Monfichier', 'r')
+&gt;&gt;&gt; t = pickle.load(f)
+&gt;&gt;&gt; print t, type(t)
+5 &lt;type 'int'&gt;
+&gt;&gt;&gt; t = pickle.load(f)
+&gt;&gt;&gt; print t, type(t)
+2.83 &lt;type 'float'&gt;
+&gt;&gt;&gt; t = pickle.load(f)
+&gt;&gt;&gt; print t, type(t)
+67 &lt;type 'int'&gt;
+&gt;&gt;&gt; f.close()</pre>
+</div></div>
+<div class="paragraph"><p>Pour cet exemple, on considère que les variables a, b et c contiennent
+les mêmes valeurs que dans l&#8217;exemple précédent. La fonction <span class="monospaced">dump()</span> du
+module pickleattend deux arguments : le premier est la variable à
+enregistrer, le second est l&#8217;objet fichier dans lequel on travaille. La
+fonction pickle.load()effectue le travail inverse, c&#8217;est-à-dire la
+restitution de chaque variable avec son type.</p></div>
+<div class="paragraph"><p>Vous pouvez aisément comprendre ce que font exactement les fonctions du
+module pickleen effectuant une lecture « classique » du fichier
+résultant, à l&#8217;aide de la méthode read()par exemple.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_gestion_des_exceptions_les_instructions_try_except_else">10.8. Gestion des exceptions. Les instructions try – except - else</h3>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print 55/0
+ZeroDivisionError: integer division or modulo</pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>filename <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">raw_input</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Veuillez entrer un nom de fichier : "</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #0000FF">try</span></span><span style="color: #990000">:</span>
+f <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">open</span></span><span style="color: #990000">(</span>filename<span style="color: #990000">,</span> <span style="color: #FF0000">"r"</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #0000FF">except</span></span><span style="color: #990000">:</span>
+<span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Le fichier"</span><span style="color: #990000">,</span> filename<span style="color: #990000">,</span> <span style="color: #FF0000">"est introuvable"</span></tt></pre></div></div>
+<div class="paragraph"><p>Si nous estimons que ce genre de test est susceptible de rendre service
+à plusieurs endroits d&#8217;un programme, nous pouvons aussi l&#8217;inclure dans une fonction :</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">existe</span></span><span style="color: #990000">(</span>fname<span style="color: #990000">):</span>
+<span style="font-weight: bold"><span style="color: #0000FF">try</span></span><span style="color: #990000">:</span>
+f <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">open</span></span><span style="color: #990000">(</span>fname<span style="color: #990000">,</span><span style="color: #FF0000">'r'</span><span style="color: #990000">)</span>
+f<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">close</span></span><span style="color: #990000">()</span>
+<span style="font-weight: bold"><span style="color: #0000FF">return</span></span> <span style="color: #993399">1</span>
+<span style="font-weight: bold"><span style="color: #0000FF">except</span></span><span style="color: #990000">:</span>
+<span style="font-weight: bold"><span style="color: #0000FF">return</span></span> <span style="color: #993399">0</span>
+
+filename <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">raw_input</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Veuillez entrer le nom du fichier : "</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="font-weight: bold"><span style="color: #000000">existe</span></span><span style="color: #990000">(</span>filename<span style="color: #990000">):</span>
+<span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Ce fichier existe bel et bien."</span>
+<span style="font-weight: bold"><span style="color: #0000FF">else</span></span><span style="color: #990000">:</span>
+<span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Le fichier"</span><span style="color: #990000">,</span> filename<span style="color: #990000">,</span> <span style="color: #FF0000">"est introuvable."</span></tt></pre></div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_approfondir_les_structures_de_données">11. Approfondir les structures de données</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_le_point_sur_les_chaînes_de_caractères">11.1. Le point sur les chaînes de caractères</h3>
+<div class="paragraph"><p>les chaînes de caractères (ou <strong>string</strong>) constituent <strong>un type de donnée
+composite</strong>.</p></div>
+<div class="paragraph"><p>En fait, les chaînes de caractères font partie d&#8217;une catégorie d&#8217;objets
+Python que l&#8217;on appelle des <strong>séquences</strong>, et dont font partie aussi
+les <strong>listes</strong> et les <strong>tuples</strong>. On peut effectuer sur les séquences tout un
+ensemble d&#8217;opérations similaires.</p></div>
+<div class="sect3">
+<h4 id="_concaténation_répétition">11.1.1. Concaténation, Répétition</h4>
+<div class="paragraph"><p>Les chaînes peuvent être concaténéesavec l&#8217;opérateur +et
+répétéesavec l&#8217;opérateur \*:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; n = 'abc' + 'def' # concaténation
+&gt;&gt;&gt; m = 'zut ! ' * 4 # répétition
+&gt;&gt;&gt; print n, m
+abcdef zut ! zut ! zut ! zut !</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_surcharge_des_opérateurs">11.1.2. surcharge des opérateurs.</h4>
+<div class="paragraph"><p>Remarquez au passage que les opérateurs + et * peuvent aussi être
+utilisés pour l&#8217;addition et la multiplication lorsqu&#8217;ils s&#8217;appliquent à
+des arguments numériques.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_indiçage_extraction_longueur">11.1.3. Indiçage, extraction, longueur</h4>
+<div class="paragraph"><p>Les éléments d&#8217;une séquence sont toujours indicés (ou numérotés) de la
+même manière, c&#8217;est-à-dire <strong>à partir de zéro</strong>. Pour extraire un
+caractère d&#8217;une chaîne, il suffit d&#8217;indiquer son indice <strong>entre
+crochets</strong> :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; nom = 'Cédric'
+&gt;&gt;&gt; print nom[1], nom[3], nom[5]
+é r c</pre>
+</div></div>
+<div class="paragraph"><p><strong>slicing</strong> (« découpage en tranches ») :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ch = "Juliette"
+&gt;&gt;&gt; print ch[0:3]
+Jul</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_parcours_d_8217_une_séquence_l_8217_instruction_for_8230_in_8230">11.1.4. Parcours d&#8217;une séquence. L&#8217;instruction for &#8230; in &#8230;</h4>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>nom = 'Jacqueline'
+index = 0
+while index &lt; len(nom):
+        print nom[index] + ' *',
+        index = index +1
+        nom = 'Jacqueline'
+        for caract in nom:
+                print caract + ' *',
+        liste = ['chien','chat','crocodile']
+        for animal in liste:
+                print 'longueur de la chaîne', animal, '=', len(animal)
+        divers = ['cheval', 3, 17.25, [5, 'Jean']]
+        for e in divers:
+                print e</pre>
+</div></div>
+<div class="paragraph"><p>L&#8217;exécution de ce script donne :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>cheval
+3
+17.25
+[5, 'Jean']</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_appartenance_d_8217_un_élément_à_une_séquence_l_8217_instruction_in_utilisée_seule">11.1.5. Appartenance d&#8217;un élément à une séquence. L&#8217;instruction in utilisée seule</h4>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>car = "e"
+voyelles = "aeiouyAEIOUY"
+if car in voyelles:
+        print car, "est une voyelle"</pre>
+</div></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>n = 5
+premiers = [1, 2, 3, 5, 7, 11, 13, 17]
+if n in premiers:
+        print n, "fait partie de notre liste de nombres premiers"</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_les_chaînes_sont_des_séquences_non_modifiables">11.1.6. Les chaînes sont des séquences non modifiables</h4>
+<div class="paragraph"><p>Vous ne pouvez pas modifier le contenu d&#8217;une chaîne existante.</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>salut = 'bonjour à tous'
+salut[0] = 'B'
+print salut</pre>
+</div></div>
+<div class="paragraph"><p><strong>interdit, utiliser</strong></p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>salut = 'bonjour à tous'
+salut = 'B' + salut[1:]
+print salut</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_les_chaînes_sont_comparables">11.1.7. Les chaînes sont comparables</h4>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>mot = raw_input("Entrez un mot quelconque : ")
+if mot &lt; "limonade":
+        place = "précède"
+elif mot &gt; "limonade":
+        place = "suit"
+else:
+        place = "se confond avec"
+
+print "Le mot", mot, place, "le mot 'limonade' dans l'ordre alphabétique"</pre>
+</div></div>
+<div class="paragraph"><p>La fonction <span class="monospaced">ord(ch)</span> accepte n&#8217;importe quel caractère comme argument.
+En retour, elle fournit le code ASCII correspondant à ce caractère.
+Ainsi <span class="monospaced">ord(<em>A</em>)</span> renvoie la valeur 65.</p></div>
+<div class="paragraph"><p>La fonction <span class="monospaced">chr(num)</span> fait exactement le contraire. L&#8217;argument qu&#8217;on
+lui transmet doit être un entier compris entre 0 et 255. En retour, on
+obtient le caractère ASCII correspondant : Ainsi <span class="monospaced">chr(65)</span> renvoie le
+caractère A.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_les_chaînes_sont_des_objets">11.1.8. Les chaînes sont des objets</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">split()</span> : convertit une chaîne en une liste de sous-chaînes. On
+peut choisir le caractère séparateur en le fournissant comme argument, sinon c&#8217;est un espace, par défaut :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; c2 ="Votez pour moi"
+&gt;&gt;&gt; a = c2.split()
+&gt;&gt;&gt; print a
+['Votez', 'pour', 'moi']
+&gt;&gt;&gt; c4 ="Cet exemple, parmi d'autres, peut encore servir"
+&gt;&gt;&gt; c4.split(",")
+['Cet exemple', " parmi d'autres", ' peut encore servir']</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">join(liste)</span> : rassemble une liste de chaînes en une seule (Cette
+méthode fait donc l&#8217;inverse de la précédente). Attention : la chaîne à
+laquelle on applique cette méthode est celle qui servira de séparateur
+(un ou plusieurs caractères); l&#8217;argument transmis est la liste des
+chaînes à rassembler :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; b2 = ["Salut","les","copains"]
+&gt;&gt;&gt; print " ".join(b2)
+Salut les copains
+&gt;&gt;&gt; print "---".join(b2)
+Salut---les---copains</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">find(sch)</span> cherche la position d&#8217;une sous-chaîne schdans la
+    chaîne :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ch1 = "Cette leçon vaut bien un fromage, sans doute ?"
+&gt;&gt;&gt; ch2 = "fromage"
+&gt;&gt;&gt; print ch1.find(ch2)
+25</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">count(sch)</span> : compte le nombre de sous-chaînes schdans la
+    chaîne :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ch1 = "Le héron au long bec emmanché d'un long cou"
+&gt;&gt;&gt; ch2 = 'long'
+&gt;&gt;&gt; print ch1.count(ch2)
+2</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">lower()</span> : convertit une chaîne en minuscules :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ch ="ATTENTION : Danger !"
+&gt;&gt;&gt; print ch.lower()
+attention : danger !</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">upper()</span> : convertit une chaîne en majuscules :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ch = "Merci beaucoup"
+&gt;&gt;&gt; print ch.upper()
+MERCI BEAUCOUP</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">capitalize()</span> : convertit en majuscule la première lettre d&#8217;une
+    chaîne :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; b3 = "quel beau temps, aujourd'hui !"
+&gt;&gt;&gt; print b3.capitalize()
+"Quel beau temps, aujourd'hui !"</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">swapcase()</span> : convertit toutes les majuscules en minuscules et
+    vice-versa :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ch5 = "La CIGALE et la FOURMI"
+&gt;&gt;&gt; print ch5.swapcase()
+lA cigale ET LA fourmi</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">strip()</span> : enlève les espaces éventuels au début et à la fin de la
+    chaîne :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ch = " Monty Python "
+&gt;&gt;&gt; ch.strip()
+'Monty Python'</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">replace(c1, c2)</span> : remplace tous les caractères <span class="monospaced">c1</span> par des
+    caractères <span class="monospaced">c2</span> dans la chaîne :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ch8 = "Si ce n'est toi c'est donc ton frère"
+&gt;&gt;&gt; print ch8.replace(" ","*")
+Si*ce*n'est*toi*c'est*donc*ton*frère</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">index(c)</span> : retrouve l&#8217;index de la première occurrence du
+    caractère <span class="monospaced">c</span> dans la chaîne :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; ch9 ="Portez ce vieux whisky au juge blond qui fume"
+&gt;&gt;&gt; print ch9.index("w")
+16</pre>
+</div></div>
+<div class="paragraph"><p>Dans la plupart de ces méthodes, il est possible de préciser quelle
+portion de la chaîne doit être traitée, en ajoutant des arguments
+supplémentaires. Exemple :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print ch9.index("e")        # cherche à partir du début de la chaîne
+4                                                       # et trouve le premier 'e'
+&gt;&gt;&gt; print ch9.index("e",5)      # cherche seulement à partir de l'indice 5
+8                                                       # et trouve le second 'e'
+&gt;&gt;&gt; print ch9.index("e",15)     # cherche à partir du caractère n° 15
+29                                                      # et trouve le quatrième 'e'</pre>
+</div></div>
+<div class="paragraph"><p>Fonctions intégrées</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">len(ch)</span> renvoie la longueur de la chaîne <span class="monospaced">ch</span> (c&#8217;est-à-dire son
+nombre de caractères)
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">float(ch)</span> convertit la chaîne chen un nombre réel (<strong>float</strong>)
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>(bien entendu, cela ne pourra fonctionner que si la chaîne représente
+bien un tel nombre) :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; a = float("12.36")
+&gt;&gt;&gt; print a + 5
+17.36</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<span class="monospaced">int(ch)</span> convertit la chaîne chen un nombre entier :
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; a = int("184")
+&gt;&gt;&gt; print a + 20
+204</pre>
+</div></div>
+<div class="paragraph"><p>Formatage des chaînes de caractères de l&#8217;opérateur % : à gauche vous fournissez une chaîne de formatage (un
+patron, en quelque sorte) qui contient des <strong>marqueurs de conversion</strong>,</p></div>
+<div class="paragraph"><p>Exemple :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; coul ="verte"
+&gt;&gt;&gt; temp = 1.347 + 15.9
+&gt;&gt;&gt; print "La couleur est %s et la température vaut %s °C" %(coul,temp)
+La couleur est verte et la température vaut 17.247 °C</pre>
+</div></div>
+<div class="paragraph"><p>Le marqueur %s accepte n&#8217;importe quel objet (chaîne, entier, float,
+&#8230;). Vous pouvez expérimenter d&#8217;autres mises en forme en utilisant
+d&#8217;autres marqueurs. Essayez par exemple de remplacer le deuxième
+%spar %d, ou par %8.2f, ou encore par %8.2g. Le marqueur
+%dattend un nombre et le convertit en entier ; les marqueurs
+%fet %gattendent des réels et peuvent déterminer la largeur et
+la précision qui seront affichées.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_le_point_sur_les_listes">11.2. Le point sur les listes</h3>
+<div class="sect3">
+<h4 id="_définition_d_8217_une_liste_accès_à_ses_éléments">11.2.1. Définition d&#8217;une liste - Accès à ses éléments</h4>
+<div class="paragraph"><p>Vous savez déjà que l&#8217;on délimite une liste à l&#8217;aide de crochets :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; nombres = [5, 38, 10, 25]
+&gt;&gt;&gt; mots = ["jambon", "fromage", "confiture", "chocolat"]
+&gt;&gt;&gt; stuff = [5000, "Brigitte", 3.1416, ["Albert", "René", 1947]]
+&gt;&gt;&gt; print nombres[2]
+10
+&gt;&gt;&gt; print nombres[1:3]
+[38, 10]
+&gt;&gt;&gt; print nombres[2:3]
+[10]
+&gt;&gt;&gt; print nombres[2:]
+[10, 25]
+&gt;&gt;&gt; print nombres[:2]
+[5, 38]
+&gt;&gt;&gt; print nombres[-1]
+25
+&gt;&gt;&gt; print nombres[-2]
+10</pre>
+</div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Note" src="data:image/png;base64,
+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">
+</td>
+<td class="content">
+<div class="paragraph"><p>Les listes sont circulaires !</p></div>
+</td>
+</tr></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_les_listes_sont_modifiables">11.2.2. Les listes sont modifiables</h4>
+<div class="paragraph"><p>Contrairement aux chaînes de caractères, les listes sont des séquences
+<strong>modifiables</strong>. Cela nous permettra de construire plus tard des
+listes de grande taille, morceau par morceau, d&#8217;une manière dynamique
+(c&#8217;est-à-dire à l&#8217;aide d&#8217;un algorithme quelconque).</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; nombres[0] = 17
+&gt;&gt;&gt; nombres
+[17, 38, 10, 25]</pre>
+</div></div>
+<div class="paragraph"><p>Si l&#8217;on souhaite accéder à un élément faisant partie d&#8217;une liste,
+elle-même située dans une autre liste, il suffit d&#8217;indiquer les deux
+index entre crochets successifs :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; stuff[3][1] = "Isabelle"
+&gt;&gt;&gt; stuff
+[5000, 'Brigitte', 3.1415999999999999, ['Albert', 'Isabelle', 1947]]</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_les_listes_sont_des_objets">11.2.3. Les listes sont des objets</h4>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; nombres = [17, 38, 10, 25, 72]
+&gt;&gt;&gt; nombres.sort() # trier la liste
+&gt;&gt;&gt; nombres
+[10, 17, 25, 38, 72]
+&gt;&gt;&gt; nombres.append(12) # ajouter un élément à la fin
+&gt;&gt;&gt; nombres
+[10, 17, 25, 38, 72, 12]
+&gt;&gt;&gt; nombres.reverse() # inverser l'ordre des éléments
+&gt;&gt;&gt; nombres
+[12, 72, 38, 25, 17, 10]
+&gt;&gt;&gt; nombres.index(17) # retrouver l'index d'un élément
+4
+&gt;&gt;&gt; nombres.remove(38) # enlever (effacer) un élément
+&gt;&gt;&gt; nombres
+[12, 72, 25, 17, 10]
+&gt;&gt;&gt; del nombres[2]
+&gt;&gt;&gt; nombres
+[12, 72, 17, 10]
+&gt;&gt;&gt; del nombres[1:3]
+&gt;&gt;&gt; nombres
+[12, 10]</pre>
+</div></div>
+<div class="paragraph"><p>Notez bien la différence entre la méthode <span class="monospaced">remove()</span> et l&#8217;instruction
+<span class="monospaced">del</span> : <span class="monospaced">del</span> travaille avec <strong>un index</strong> ou une tranche d&#8217;index,
+tandis que <span class="monospaced">remove()</span> recherche <strong>une valeur</strong> (si plusieurs éléments
+de la liste possèdent la même valeur, seul le premier est effacé).</p></div>
+</div>
+<div class="sect3">
+<h4 id="_techniques_de_slicing_avancé_pour_modifier_une_liste">11.2.4. Techniques de « slicing » avancé pour modifier une liste</h4>
+<div class="paragraph"><p>a) Insertion d&#8217;un ou plusieurs éléments n&#8217;importe où dans une liste</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; mots = ['jambon', 'fromage', 'confiture', 'chocolat']
+&gt;&gt;&gt; mots[2:2] =["miel"]
+&gt;&gt;&gt; mots
+['jambon', 'fromage', 'miel', 'confiture', 'chocolat']
+&gt;&gt;&gt; mots[5:5] =['saucisson', 'ketchup']
+&gt;&gt;&gt; mots
+['jambon', 'fromage', 'miel', 'confiture', 'chocolat', 'saucisson',
+'ketchup']</pre>
+</div></div>
+<div class="paragraph"><p>b) Suppression / remplacement d'éléments</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; mots[2:5] = [] # [] désigne une liste vide
+&gt;&gt;&gt; mots
+['jambon','fromage','saucisson', 'ketchup']
+&gt;&gt;&gt; mots[1:3] = ['salade']
+&gt;&gt;&gt; mots
+['jambon', 'salade', 'ketchup']
+&gt;&gt;&gt; mots[1:] = ['mayonnaise', 'poulet', 'tomate']
+&gt;&gt;&gt; mots
+['jambon', 'mayonnaise', 'poulet', 'tomate']</pre>
+</div></div>
+<div class="paragraph"><p> 
+=== Création d&#8217;une liste de nombres à l&#8217;aide de la fonction range()</p></div>
+<div class="paragraph"><p>Si vous devez manipuler des séquences de nombres, vous pouvez les créer
+très aisément à l&#8217;aide de cette fonction :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; range(10)
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</pre>
+</div></div>
+<div class="paragraph"><p>On peut aussi utiliser <span class="monospaced">range()</span> avec deux, ou même trois arguments
+séparés par des virgules, afin de générer des séquences de nombres plus spécifiques :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; range(5,13)
+[5, 6, 7, 8, 9, 10, 11, 12]
+&gt;&gt;&gt; range(3,16,3)
+[3, 6, 9, 12, 15]</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_parcours_d_8217_une_liste_à_l_8217_aide_de_for_range_et_len">11.2.5. Parcours d&#8217;une liste à l&#8217;aide de for, range() et len()</h4>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; prov =
+['La','raison','du','plus','fort','est','toujours','la','meilleure']
+&gt;&gt;&gt; for mot in prov:
+print mot,
+La raison du plus fort est toujours la meilleure</pre>
+</div></div>
+<div class="paragraph"><p>Il est très pratique de combiner les fonctions <span class="monospaced">range()</span> et
+<span class="monospaced">len()</span> pour obtenir automatiquement tous les indices d&#8217;une séquence (liste ou chaîne). Exemple :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>fable = ['Maître','Corbeau','sur','un','arbre','perché']
+for index in range(len(fable)):
+        print index, fable[index]</pre>
+</div></div>
+<div class="paragraph"><p>L&#8217;exécution de ce script donne le résultat :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>0 Maître
+1 Corbeau
+2 sur
+3 un
+4 arbre
+5 perché</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_une_conséquence_du_typage_dynamique">11.2.6. Une conséquence du typage dynamique</h4>
+<div class="paragraph"><p>Même si les éléments d&#8217;une liste sont de types différents, on peut
+parcourir cette liste à l&#8217;aide de forsans qu&#8217;il ne s&#8217;ensuive une
+erreur</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; divers = [3, 17.25, [5, 'Jean'], 'Linux is not Windoze']
+&gt;&gt;&gt; for item in divers:
+        print item, type(item)
+3 &lt;type 'int'&gt;
+17.25 &lt;type 'float'&gt;
+[5, 'Jean'] &lt;type 'list'&gt;</pre>
+</div></div>
+<div class="paragraph"><p>Linux is not Windoze &lt;type <em>str</em>&gt;</p></div>
+</div>
+<div class="sect3">
+<h4 id="_opérations_sur_les_listes">11.2.7. Opérations sur les listes</h4>
+<div class="paragraph"><p>On peut appliquer aux listes les opérateurs + (concaténation) et *
+(multiplication) :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; fruits = ['orange','citron']
+&gt;&gt;&gt; legumes = ['poireau','oignon','tomate']
+&gt;&gt;&gt; fruits + legumes
+['orange', 'citron', 'poireau', 'oignon', 'tomate']
+&gt;&gt;&gt; fruits * 3
+['orange', 'citron', 'orange', 'citron', 'orange', 'citron']</pre>
+</div></div>
+<div class="paragraph"><p>L&#8217;opérateur * est particulièrement utile pour créer une liste de n
+éléments identiques :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; sept_zeros = [0]*7
+&gt;&gt;&gt; sept_zeros
+[0, 0, 0, 0, 0, 0, 0]</pre>
+</div></div>
+<div class="paragraph"><p><strong>Test d&#8217;appartenance</strong></p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; v = 'tomate'
+&gt;&gt;&gt; if v in legumes:
+print 'OK'
+OK</pre>
+</div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Note" src="data:image/png;base64,
+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">
+</td>
+<td class="content">
+<div class="paragraph"><p>Python vous autorise à « étendre » une longue instruction sur plusieurs
+lignes, si vous continuez à encoder quelque chose qui est délimité par
+une paire de parenthèses, de crochets ou d&#8217;accolades. Vous pouvez
+traiter ainsi des expressions parenthésées, ou encore la définition de
+longues listes, de grands tuples ou de grands dictionnaires (voir plus
+loin). Le niveau d&#8217;indentation n&#8217;a pas d&#8217;importance : l&#8217;interpréteur
+détecte la fin de l&#8217;instruction, là où la paire syntaxique est refermée.
+Cette fonctionnalité vous permet d&#8217;améliorer la lisibilité de vos
+programmes.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Exemple :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>couleurs = ['noir', 'brun', 'rouge',
+'orange', 'jaune', 'vert',
+'bleu', 'violet', 'gris', 'blanc']</pre>
+</div></div>
+<div class="paragraph"><p><strong>Nombres aléatoires - Histogrammes</strong></p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; from random import *</pre>
+</div></div>
+<div class="paragraph"><p>La fonction ci-dessous permet de créer une liste de nombres réels
+aléatoires, de valeur comprise entre zéro et un. L&#8217;argument à fournir est la taille de la liste :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; def list_aleat(n):
+s = [0]*n
+for i in range(n):
+        s[i] = random()
+return s</pre>
+</div></div>
+<div class="paragraph"><p> 
+Avec un seul argument, elle renvoie un entier compris entre zéro et la
+valeur de l&#8217;argument diminué d&#8217;une unité. Par exemple,
+<span class="monospaced">randrange(6)</span> renvoie un nombre compris entre 0 et 5. Avec deux
+arguments, le nombre renvoyé est compris entre la valeur du premier
+argument et la valeur du second argument diminué d&#8217;une unité. Par
+exemple, <span class="monospaced">randrange(2, 8)</span> renvoie un nombre compris entre 2 et 7. Si
+l&#8217;on ajoute un troisième argument, celui-ci indique que le nombre tiré
+au hasard doit faire partie d&#8217;une série limitée d&#8217;entiers, séparés les
+uns des autres par un certain intervalle, défini lui-même par ce
+troisième argument. Par exemple, <span class="monospaced">randrange(3, 13, 3)</span> renverra un des
+nombres de la série 3, 6, 9, 12 :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; for i in range(15):
+print random.randrange(3,13,3),
+3 12 6 9 6 6 12 6 3 6 9 3 6 12 12</pre>
+</div></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_les_tuples">11.3. Les tuples</h3>
+<div class="paragraph"><p>Python propose un type de données appelé <strong>tuple</strong>, qui est assez
+semblable à une liste mais qui n&#8217;est pas modifiable.</p></div>
+<div class="paragraph"><p>Du point de vue de la syntaxe, un tuple est une collection d'éléments
+séparés par des virgules :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; tuple = 'a', 'b', 'c', 'd', 'e'
+&gt;&gt;&gt; print tuple
+('a', 'b', 'c', 'd', 'e')</pre>
+</div></div>
+<div class="paragraph"><p>Bien que cela ne soit pas nécessaire, il est vivement conseillé de
+mettre le tuple en évidence en l&#8217;enfermant dans une paire de
+parenthèses, comme l&#8217;instruction printde Python le fait elle-même.
+(Il s&#8217;agit simplement d&#8217;améliorer la lisibilité du code, mais vous savez
+que c&#8217;est important) :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; tuple = ('a', 'b', 'c', 'd', 'e')</pre>
+</div></div>
+<div class="paragraph"><p>Les opérations que l&#8217;on peut effectuer sur des tuples sont
+syntaxiquement similaires à celles que l&#8217;on effectue sur les listes, si
+ce n&#8217;est que les tuples ne sont pas modifiables :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print tuple[2:4]
+('c', 'd')
+&gt;&gt;&gt; tuple[1:3] = ('x', 'y') ==&gt; * erreur *
+&gt;&gt;&gt; tuple = ('André',) + tuple[1:]
+&gt;&gt;&gt; print tuple
+('André', 'b', 'c', 'd', 'e')</pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_les_dictionnaires">11.4. Les dictionnaires</h3>
+<div class="paragraph"><p><strong>Création d&#8217;un dictionnaire</strong></p></div>
+<div class="paragraph"><p>Dans une paire d&#8217;accolades. Un dictionnaire vide sera donc noté <span class="monospaced">{}</span> :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; dico = {}
+&gt;&gt;&gt; dico['computer'] = 'ordinateur'
+&gt;&gt;&gt; dico['mouse'] ='souris'
+&gt;&gt;&gt; dico['keyboard'] ='clavier'
+&gt;&gt;&gt; print dico
+{'computer': 'ordinateur', 'keyboard': 'clavier', 'mouse': 'souris'}</pre>
+</div></div>
+<div class="paragraph"><p><strong>Opérations sur les dictionnaires</strong></p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; invent = {'pommes': 430, 'bananes': 312, 'oranges' : 274,
+'poires' : 137}
+&gt;&gt;&gt; print invent
+{'oranges': 274, 'pommes': 430, 'bananes': 312, 'poires': 137}</pre>
+</div></div>
+<div class="paragraph"><p>Si le patron décide de liquider toutes les pommes et de ne plus en
+vendre, nous pouvons enlever cette entrée dans le dictionnaire :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; del invent['pommes']
+&gt;&gt;&gt; print invent
+{'oranges': 274, 'bananes': 312, 'poires': 137}</pre>
+</div></div>
+<div class="paragraph"><p>La fonction <span class="monospaced">len()</span> est utilisable avec un dictionnaire : elle en
+renvoie le nombre d'éléments.</p></div>
+<div class="paragraph"><p><strong>Les dictionnaires sont des objets</strong></p></div>
+<div class="paragraph"><p>La méthode <span class="monospaced">keys()</span> renvoie la liste des clés utilisées dans le
+dictionnaire :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print dico.keys()
+['computer', 'keyboard', 'mouse']</pre>
+</div></div>
+<div class="paragraph"><p>La méthode <span class="monospaced">values()</span> renvoie la liste des valeurs mémorisées dans le
+dictionnaire :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print invent.values()
+[274, 312, 137]</pre>
+</div></div>
+<div class="paragraph"><p>La méthode <span class="monospaced">has_key()</span> permet de savoir si un dictionnaire comprend
+une clé déterminée. On fournit la clé en argument, et la méthode renvoie
+une valeur <em>vraie</em> ou <em>fausse</em> (en fait, 1 ou 0), suivant que la clé est
+présente ou pas :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print invent.has_key('bananes')
+1
+&gt;&gt;&gt; if invent.has_key('pommes'):
+        print 'nous avons des pommes'
+else:
+        print 'pas de pommes, sorry'
+pas de pommes, sorry</pre>
+</div></div>
+<div class="paragraph"><p>La méthode <span class="monospaced">items()</span> extrait du dictionnaire une liste équivalente de
+tuples :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print invent.items()
+[('oranges', 274), ('bananes', 312), ('poires', 137)]</pre>
+</div></div>
+<div class="paragraph"><p> 
+La méthode <span class="monospaced">copy()</span> permet d&#8217;effectuer une vraie copie d&#8217;un
+dictionnaire.</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; magasin = stock.copy()
+&gt;&gt;&gt; magasin['prunes'] = 561
+&gt;&gt;&gt; print magasin
+{'oranges': 274, 'prunes': 561, 'poires': 137}
+&gt;&gt;&gt; print stock
+{'oranges': 274, 'poires': 137}
+&gt;&gt;&gt; print invent
+{'oranges': 274, 'poires': 137}</pre>
+</div></div>
+<div class="paragraph"><p> 
+<strong>Parcours d&#8217;un dictionnaire</strong></p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; invent ={"oranges":274, "poires":137, "bananes":312}
+&gt;&gt;&gt; for clef in invent:
+... print clef
+poires
+bananes
+oranges</pre>
+</div></div>
+<div class="paragraph"><p> 
+<strong>Les clés ne sont pas nécessairement des chaînes de caractères</strong></p></div>
+<div class="paragraph"><p>rectangulaire. Nous pouvons pour cela utiliser un dictionnaire, dont les
+clés seront des tuples indiquant les coordonnées x,y de chaque arbre :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; arb = {}
+&gt;&gt;&gt; arb[(1,2)] = 'Peuplier'
+&gt;&gt;&gt; arb[(3,4)] = 'Platane'
+&gt;&gt;&gt; arb[6,5] = 'Palmier'
+&gt;&gt;&gt; arb[5,1] = 'Cycas'
+&gt;&gt;&gt; arb[7,3] = 'Sapin'</pre>
+</div></div>
+<div class="paragraph"><p><span class="image">
+<img alt="Python-notes_fichiers/image004.gif" width="30%" src="data:image/gif;base64,
+R0lGODlhpgCHAPcAAAAAAAoGAgwJBgwMDREODA8QERQRDhQTExkVFBYXGBcYGRsYFhoaGSEdGx8f
+IB8gICQgHiMiIikmJCYnKCYoKCcoJysoJiwrKjEtLC4vMC4wMTMwLjMzMjk1MzU3ODY4ODs4Njs6
+OkA9Oj0/QD5AQENAPkRCQklFQ0ZHSEZISUtIRkxLSlFNTE5PUE5QUFRQTlRSUVlVU1tYVlxaWmFd
+XF5gYGNgXmRjYmhlY2dnaGdoaGtoZmxranFubW9wcHJwbnVzcnh1dHp4dn17eYF9fIB/gX2AgIKA
+fYWDgoiGhYqIhouJiJCOjI+QkZKQjpSTkpmWlZeZmZuZl52cm6CenaKgnqSjoqimpamopq6sq7Cu
+ra+wsLGwr7Szsri2tre4uLq4t7y7usG+vsLBv8PCwcjGxcfHyMfIx8nIx8zLy9DPzs/Q0NDQz9TU
+09nX1tfZ2dnZ19zb29/f4ODf39/g39/g4ODg3+Pj4+jn5+ro5+3t7O/v8PDv7/Dw7/T09Pf3+f7+
+/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAAIEAIf8LSUNDUkdC
+RzEwMTL/AAAHqGFwcGwCIAAAbW50clJHQiBYWVogB9kAAgAZAAsAGgALYWNzcEFQUEwAAAAAYXBw
+bAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1hcHBsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALZGVzYwAAAQgAAABvZHNjbQAAAXgAAAVsY3BydAAABuQA
+AAA4d3RwdAAABxwAAAAUclhZWgAABzAAAAAUZ1hZWgAAB0QAAAAUYlhZWgAAB1gAAAAUclRSQwAA
+B2wAAAAOY2hhZAAAB3wAAAAsYlRSQwAAB2wAAAAOZ1RS/0MAAAdsAAAADmRlc2MAAAAAAAAAFEdl
+bmVyaWMgUkdCIFByb2ZpbGUAAAAAAAAAAAAAABRHZW5lcmljIFJHQiBQcm9maWxlAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABtbHVjAAAAAAAAAB4AAAAM
+c2tTSwAAACgAAAF4aHJIUgAAACgAAAGgY2FFUwAAACQAAAHIcHRCUgAAACYAAAHsdWtVQQAAACoA
+AAISZnJGVQAAACgAAAI8emhUVwAAABYAAAJkaXRJVAAAACgAAAJ6bmJOTwAAACYAAAKia29LUgAA
+ABYAAP8CyGNzQ1oAAAAiAAAC3mhlSUwAAAAeAAADAGRlREUAAAAsAAADHmh1SFUAAAAoAAADSnN2
+U0UAAAAmAAAConpoQ04AAAAWAAADcmphSlAAAAAaAAADiHJvUk8AAAAkAAADomVsR1IAAAAiAAAD
+xnB0UE8AAAAmAAAD6G5sTkwAAAAoAAAEDmVzRVMAAAAmAAAD6HRoVEgAAAAkAAAENnRyVFIAAAAi
+AAAEWmZpRkkAAAAoAAAEfHBsUEwAAAAsAAAEpHJ1UlUAAAAiAAAE0GFyRUcAAAAmAAAE8mVuVVMA
+AAAmAAAFGGRhREsAAAAuAAAFPgBWAWEAZQBvAGIAZQD/YwBuAP0AIABSAEcAQgAgAHAAcgBvAGYA
+aQBsAEcAZQBuAGUAcgBpAQ0AawBpACAAUgBHAEIAIABwAHIAbwBmAGkAbABQAGUAcgBmAGkAbAAg
+AFIARwBCACAAZwBlAG4A6AByAGkAYwBQAGUAcgBmAGkAbAAgAFIARwBCACAARwBlAG4A6QByAGkA
+YwBvBBcEMAQzBDAEOwRMBD0EOAQ5ACAEPwRABD4ERAQwBDkEOwAgAFIARwBCAFAAcgBvAGYAaQBs
+ACAAZwDpAG4A6QByAGkAcQB1AGUAIABSAFYAQpAadSgAIABSAEcAQgAggnJfaWPPj/AAUAByAG8A
+ZgBp/wBsAG8AIABSAEcAQgAgAGcAZQBuAGUAcgBpAGMAbwBHAGUAbgBlAHIAaQBzAGsAIABSAEcA
+QgAtAHAAcgBvAGYAaQBsx3y8GAAgAFIARwBCACDVBLhc0wzHfABPAGIAZQBjAG4A/QAgAFIARwBC
+ACAAcAByAG8AZgBpAGwF5AXoBdUF5AXZBdwAIABSAEcAQgAgBdsF3AXcBdkAQQBsAGwAZwBlAG0A
+ZQBpAG4AZQBzACAAUgBHAEIALQBQAHIAbwBmAGkAbADBAGwAdABhAGwA4QBuAG8AcwAgAFIARwBC
+ACAAcAByAG8AZgBpAGxmbpAaACAAUgBHAEIAIGPPj//wZYdO9k4AgiwAIABSAEcAQgAgMNcw7TDV
+MKEwpDDrAFAAcgBvAGYAaQBsACAAUgBHAEIAIABnAGUAbgBlAHIAaQBjA5MDtQO9A7kDugPMACAD
+wAPBA78DxgOvA7sAIABSAEcAQgBQAGUAcgBmAGkAbAAgAFIARwBCACAAZwBlAG4A6QByAGkAYwBv
+AEEAbABnAGUAbQBlAGUAbgAgAFIARwBCAC0AcAByAG8AZgBpAGUAbA5CDhsOIw5EDh8OJQ5MACAA
+UgBHAEIAIA4XDjEOSA4nDkQOGwBHAGUAbgBlAGwAIABSAEcAQgAgAFAAcgBvAGYAaQBsAGkAWQBs
+AGX/AGkAbgBlAG4AIABSAEcAQgAtAHAAcgBvAGYAaQBpAGwAaQBVAG4AaQB3AGUAcgBzAGEAbABu
+AHkAIABwAHIAbwBmAGkAbAAgAFIARwBCBB4EMQRJBDgEOQAgBD8EQAQ+BEQEOAQ7BEwAIABSAEcA
+QgZFBkQGQQAgBioGOQYxBkoGQQAgAFIARwBCACAGJwZEBjkGJwZFAEcAZQBuAGUAcgBpAGMAIABS
+AEcAQgAgAFAAcgBvAGYAaQBsAGUARwBlAG4AZQByAGUAbAAgAFIARwBCAC0AYgBlAHMAawByAGkA
+dgBlAGwAcwBldGV4dAAAAABDb3B5cmlnaHQgMjAwrzcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyBy
+ZXNlcnZlZC4AWFlaIAAAAAAAAPNSAAEAAAABFs9YWVogAAAAAAAAdE0AAD3uAAAD0FhZWiAAAAAA
+AABadQAArHMAABc0WFlaIAAAAAAAACgaAAAVnwAAuDZjdXJ2AAAAAAAAAAEBzQAAc2YzMgAAAAAA
+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
+AQEAOw==">
+</span></p></div>
+<div class="paragraph"><p>nous allons provoquer une erreur :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print arb[1,2]
+Peuplier
+&gt;&gt;&gt; print arb[2,1]
+* Erreur : KeyError: (2, 1) *</pre>
+</div></div>
+<div class="paragraph"><p>Pour résoudre ce petit problème, nous pouvons utiliser la méthode
+<span class="monospaced">get()</span> :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print arb.get((1,2),'néant')
+Peuplier
+&gt;&gt;&gt; print arb.get((2,1),'néant')
+néant</pre>
+</div></div>
+<div class="paragraph"><p>Le premier argument transmis à cette méthode est la clé de recherche, le
+second argument est la valeur que nous voulons obtenir en retour si la
+clé n&#8217;existe pas dans le dictionnaire.
+ 
+# Les dictionnaires ne sont pas des séquences</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print arb[1:3]
+* Erreur : KeyError: slice(1, 3, None) *</pre>
+</div></div>
+<div class="paragraph"><p>Vous avez vu également qu&#8217;il suffit d&#8217;affecter un nouvel indice (une
+nouvelle clé) pour ajouter une entrée au dictionnaire. Cela ne
+marcherait pas avec les listes46 :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; invent['cerises'] = 987
+&gt;&gt;&gt; print invent
+{'oranges': 274, 'cerises': 987, 'poires': 137}
+&gt;&gt;&gt; liste =['jambon', 'salade', 'confiture', 'chocolat']
+&gt;&gt;&gt; liste[4] ='salami'</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+IndexError: list assignment index out of range *
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Du fait qu&#8217;ils ne sont pas des séquences, les dictionnaires se révèlent
+donc particulièrement précieux pour gérer des ensembles de données où
+l&#8217;on est amené à effectuer fréquemment des ajouts ou des suppressions,
+dans n&#8217;importe quel ordre. Ils remplacent avantageusement les listes
+lorsqu&#8217;il s&#8217;agit de traiter des ensembles de données numérotées, dont
+les numéros ne se suivent pas.</p></div>
+<div class="paragraph"><p>Exemple :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; client = {}
+&gt;&gt;&gt; client[4317] = "Dupond"
+&gt;&gt;&gt; client[256] = "Durand"
+&gt;&gt;&gt; client[782] = "Schmidt"</pre>
+</div></div>
+<div class="paragraph"><p> 
+# Construction d&#8217;un histogramme à l&#8217;aide d&#8217;un dictionnaire</p></div>
+<div class="paragraph"><p>Compter le nombre de caractères dans un texte donné. L&#8217;algorithme
+permettant de réaliser ce travail est extraordinairement simple si on le construit sur
+base d&#8217;un dictionnaire :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; texte ="les saucisses et saucissons secs sont dans le saloir"
+&gt;&gt;&gt; lettres ={}
+&gt;&gt;&gt; for c in texte:
+        lettres[c] = lettres.get(c, 0) + 1
+&gt;&gt;&gt; print lettres
+{'t': 2, 'u': 2, 'r': 1, 's': 14, 'n': 3, 'o': 3, 'l': 3, 'i': 3, 'd':
+1, 'e': 5, 'c': 3, ' ': 8, 'a': 4}</pre>
+</div></div>
+<div class="paragraph"><p> 
+Pour fignoler notre travail, nous pouvons encore souhaiter afficher
+l&#8217;histogramme dans l&#8217;ordre alphabétique. Pour ce faire, nous pensons immédiatement à la méthode
+<span class="monospaced">sort()</span>, mais celle-ci ne peut s&#8217;appliquer qu&#8217;aux listes. Qu'à cela ne tienne ! Nous avons vu plus haut
+comment nous pouvions convertir un dictionnaire en une liste de tuples :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; lettres_triees = lettres.items()
+&gt;&gt;&gt; lettres_triees.sort()
+&gt;&gt;&gt; print lettres_triees
+[(' ', 8), ('a', 4), ('c', 3), ('d', 1), ('e', 5), ('i', 3), ('l', 3),
+('n', 3), ('o', 3), ('r', 1), ('s', 14), ('t', 2), ('u', 2)]</pre>
+</div></div>
+<div class="paragraph"><p> 
+=== Contrôle du flux d&#8217;exécution à l&#8217;aide d&#8217;un dictionnaire</p></div>
+<div class="paragraph"><p>une variable. Vous pouvez bien évidemment traiter ce
+problème à l&#8217;aide d&#8217;une série d&#8217;instructions if - elif - else, mais
+cela peut devenir assez lourd et inélégant si vous avez affaire à un
+grand nombre de possibilités. Exemple :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>materiau = raw_input("Choisissez le matériau : ")
+if materiau == 'fer':
+        fonctionA()
+elif materiau == 'bois':
+        fonctionC()
+elif materiau == 'cuivre':
+        fonctionB()
+elif materiau == 'pierre':
+        fonctionD()
+elif *... etc ...* </pre>
+</div></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>materiau = raw_input("Choisissez le matériau : ")
+dico = {'fer':fonctionA,
+'bois:fonctionC,
+'cuivre':fonctionB,
+'pierre':fonctionD,
+*... etc ...*}
+
+dico[materiau]()</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+La première instruction définit un dictionnaire dicodans lequel
+les clés sont les différentes possibilités pour la variable materiau, et les valeurs, les noms des
+fonctions à invoquer en correspondance. Notez bien qu&#8217;il s&#8217;agit
+seulement des noms de ces fonctions, qu&#8217;il ne faut surtout pas faire
+suivre de parenthèses dans ce cas (Sinon Python exécuterait chacune de
+ces fonctions au moment de la création du dictionnaire).
+</p>
+</li>
+<li>
+<p>
+La seconde instruction invoque la fonction correspondant au choix
+opéré à l&#8217;aide de la variable materiau. Le nom de la fonction est
+extrait du dictionnaire à l&#8217;aide de la clé, puis associé à une paire de
+parenthèses. Python reconnaît alors un appel de fonction tout à fait
+classique et l&#8217;exécute.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Vous pouvez encore améliorer la technique ci-dessus en remplaçant cette
+instruction par sa variante ci-dessous, qui fait appel à la méthode
+<span class="monospaced">get()</span> afin de prévoir le cas où la clé demandée n&#8217;existerait pas dans
+le dictionnaire (vous obtenez de cette façon l'équivalent d&#8217;une
+instruction elseterminant une longue série de elif) :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>dico.get(materiau, fonctAutre)()</pre>
+</div></div>
+<div class="paragraph"><p>(Lorsque la la valeur de la variable materiaune correspond à aucune
+clé du dictionnaire, c&#8217;est la fonction <span class="monospaced">fonctAutre()</span> qui est
+invoquée).</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_classes_objets_attributs">12. Classes, objets, attributs</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>concept d'<strong>encapsulation</strong>:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; class Point:
+        "Définition d'un point mathématique"
+&gt;&gt;&gt; p9 = Point()
+&gt;&gt;&gt; print p9.__doc__</pre>
+</div></div>
+<div class="paragraph"><p>Définition d&#8217;un point mathématique</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; print p9
+&lt;__main__.Point instance at 0x403e1a8c&gt;</pre>
+</div></div>
+<div class="paragraph"><p> 
+vide. Nous pouvons ajouter des composants à
+cet objet par simple assignation,</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; p9.x = 3.0
+&gt;&gt;&gt; p9.y = 4.0</pre>
+</div></div>
+<div class="paragraph"><p>La bonne manière de procéder sera développée dans le chapitre suivant.</p></div>
+<div class="paragraph"><p><strong>Passage d&#8217;objets comme arguments lors de l&#8217;appel d&#8217;une fonction</strong></p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; def affiche_point(p):
+print "coord. horizontale =", p.x, "coord. verticale =", p.y</pre>
+</div></div>
+<div class="paragraph"><p>Le paramètre putilisé par cette fonction doit être un objet de type
+<span class="monospaced">Point()</span>, puisque l&#8217;instruction qui suit utilise les variables
+d&#8217;instance <span class="monospaced">p.x</span> et <span class="monospaced">p.y</span>.</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; affiche_point(p9)
+coord. horizontale = 3.0 coord. verticale = 4.0</pre>
+</div></div>
+<div class="sect2">
+<h3 id="_classes_méthodes_héritage">12.1. Classes, méthodes, héritage</h3>
+<div class="sect3">
+<h4 id="_définition_d_8217_une_méthode">12.1.1. Définition d&#8217;une méthode</h4>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">class</span></span> Time<span style="color: #990000">:</span>
+<span style="font-style: italic"><span style="color: #9A1900">        "Nouvelle classe temporelle"</span></span>
+
+        <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">affiche_heure</span></span><span style="color: #990000">(</span>self<span style="color: #990000">):</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="font-weight: bold"><span style="color: #000000">str</span></span><span style="color: #990000">(</span>self<span style="color: #990000">.</span>heure<span style="color: #990000">)</span> <span style="color: #990000">+</span> <span style="color: #FF0000">":"</span> <span style="color: #990000">+</span> <span style="font-weight: bold"><span style="color: #000000">str</span></span><span style="color: #990000">(</span>self<span style="color: #990000">.</span>minute<span style="color: #990000">)</span> <span style="color: #990000">+</span> <span style="color: #FF0000">":"</span> <span style="color: #990000">+</span> <span style="font-weight: bold"><span style="color: #000000">str</span></span><span style="color: #990000">(</span>self<span style="color: #990000">.</span>seconde<span style="color: #990000">)</span></tt></pre></div></div>
+</div>
+<div class="sect3">
+<h4 id="_la_méthode_constructeur">12.1.2. La méthode « constructeur »</h4>
+<div class="paragraph"><p>obligatoirement s&#8217;appeler <span class="monospaced"><em>init</em></span></p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">class</span></span> Time<span style="color: #990000">:</span>
+<span style="font-style: italic"><span style="color: #9A1900">        "Encore une nouvelle classe temporelle"</span></span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">__init__</span></span><span style="color: #990000">(</span>self<span style="color: #990000">):</span>
+        self<span style="color: #990000">.</span>heure <span style="color: #990000">=</span><span style="color: #993399">0</span>
+        self<span style="color: #990000">.</span>minute <span style="color: #990000">=</span><span style="color: #993399">0</span>
+        self<span style="color: #990000">.</span>seconde <span style="color: #990000">=</span><span style="color: #993399">0</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">affiche_heure</span></span><span style="color: #990000">(</span>self<span style="color: #990000">):</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="font-weight: bold"><span style="color: #000000">str</span></span><span style="color: #990000">(</span>self<span style="color: #990000">.</span>heure<span style="color: #990000">)</span> <span style="color: #990000">+</span> <span style="color: #FF0000">":"</span> <span style="color: #990000">+</span> <span style="font-weight: bold"><span style="color: #000000">str</span></span><span style="color: #990000">(</span>self<span style="color: #990000">.</span>minute<span style="color: #990000">)</span> <span style="color: #990000">+</span> <span style="color: #FF0000">":"</span> <span style="color: #990000">+</span> <span style="font-weight: bold"><span style="color: #000000">str</span></span><span style="color: #990000">(</span>self<span style="color: #990000">.</span>seconde<span style="color: #990000">)</span></tt></pre></div></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; tstart = Time()
+&gt;&gt;&gt; tstart.affiche_heure()
+0:0:0</pre>
+</div></div>
+<div class="paragraph"><p>points. Notez encore une fois l&#8217;utilisation de <span class="monospaced">self</span> pour désigner
+l&#8217;instance.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_héritage">12.1.3. Héritage</h4>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; class Mammifere:
+caract1 = "il allaite ses petits ;"
+&gt;&gt;&gt; class Carnivore(Mammifere):
+caract2 = "il se nourrit de la chair de ses proies ;"
+&gt;&gt;&gt; class Chien(Carnivore):
+caract3 = "son cri s'appelle aboiement ;"</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_héritage_et_polymorphisme">12.1.4. Héritage et polymorphisme</h4>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>class Atome:
+        "atomes simplifiés, choisis parmi les 10 premiers éléments du TP"
+        table =[None, ('hydrogène',0), ('hélium',2), ('lithium',4), ('béryllium',5), ('bore',6), ('carbone',6),('azote',7), ('oxygène',8), ('fluor',10), ('néon',10)]
+
+def __init__(self, nat):
+        "le n° atomique détermine le n. de protons, d'électrons et de neutrons"
+        self.np, self.ne = nat, nat # nat = numéro atomique
+        self.nn = Atome.table[nat][1] # nb. de neutrons trouvés dans table
+def affiche(self):
+        print
+        print "Nom de l'élément :", Atome.table[self.np][0]
+        print "%s protons, %s électrons, %s neutrons" % (self.np, self.ne, self.nn)
+
+class Ion(Atome):
+        "les ions sont des atomes qui ont gagné ou perdu des électrons"
+
+def __init__(self, nat, charge):
+        "le n° atomique et la charge électrique déterminent l'ion"
+        Atome.__init__(self, nat)
+        self.ne = self.ne - charge
+        self.charge = charge
+
+def affiche(self):
+        "cette méthode remplace celle héritée de la classe parente"
+        Atome.affiche(self) # ... tout en l'utilisant elle-même !
+        print "Particule électrisée. Charge =", self.charge</pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_programme_principal">12.1.5. Programme principal :</h4>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>a1 = Atome(5)
+a2 = Ion(3, 1)
+a3 = Ion(8, -2)
+a1.affiche()
+a2.affiche()
+a3.affiche()</pre>
+</div></div>
+<div class="paragraph"><p>Lorsque dans la définition d&#8217;une classe, on souhaite faire appel à
+une méthode définie dans une autre classe, on doit lui transmettre la
+référence de l&#8217;instance comme premier argument. : ex <span class="monospaced">Atome.affiche(self)</span>.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_modules_contenant_des_bibliothèques_de_classes">12.2. Modules contenant des bibliothèques de classes</h3>
+<div class="paragraph"><p>vous nommerez <span class="monospaced">formes.py</span></p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># -*- coding:Utf-8 -*-</span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">class</span></span> Rectangle<span style="color: #990000">:</span>
+<span style="font-style: italic"><span style="color: #9A1900">        "Classe de rectangles"</span></span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">__init__</span></span><span style="color: #990000">(</span>self<span style="color: #990000">,</span> longueur <span style="color: #990000">=</span><span style="color: #993399">30</span><span style="color: #990000">,</span> largeur <span style="color: #990000">=</span><span style="color: #993399">15</span><span style="color: #990000">):</span>
+        self<span style="color: #990000">.</span>L <span style="color: #990000">=</span> longueur
+        self<span style="color: #990000">.</span>l <span style="color: #990000">=</span> largeur
+        self<span style="color: #990000">.</span>nom <span style="color: #990000">=</span><span style="color: #FF0000">"rectangle"</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">perimetre</span></span><span style="color: #990000">(</span>self<span style="color: #990000">):</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> <span style="color: #FF0000">"(%s + %s) * 2 = %s"</span> <span style="color: #990000">%</span> <span style="color: #990000">(</span>self<span style="color: #990000">.</span>L<span style="color: #990000">,</span> self<span style="color: #990000">.</span>l<span style="color: #990000">,</span> <span style="color: #990000">(</span>self<span style="color: #990000">.</span>L <span style="color: #990000">+</span> self<span style="color: #990000">.</span>l<span style="color: #990000">)*</span><span style="color: #993399">2</span><span style="color: #990000">)</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">surface</span></span><span style="color: #990000">(</span>self<span style="color: #990000">):</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> <span style="color: #FF0000">"%s * %s = %s"</span> <span style="color: #990000">%</span> <span style="color: #990000">(</span>self<span style="color: #990000">.</span>L<span style="color: #990000">,</span> self<span style="color: #990000">.</span>l<span style="color: #990000">,</span> self<span style="color: #990000">.</span>L<span style="color: #990000">*</span>self<span style="color: #990000">.</span>l<span style="color: #990000">)</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">mesures</span></span><span style="color: #990000">(</span>self<span style="color: #990000">):</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"Un %s de %s sur %s"</span> <span style="color: #990000">%</span> <span style="color: #990000">(</span>self<span style="color: #990000">.</span>nom<span style="color: #990000">,</span> self<span style="color: #990000">.</span>L<span style="color: #990000">,</span> self<span style="color: #990000">.</span>l<span style="color: #990000">)</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"a une surface de %s"</span> <span style="color: #990000">%</span> <span style="color: #990000">(</span>self<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">surface</span></span><span style="color: #990000">(),)</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">print</span></span> <span style="color: #FF0000">"et un périmètre de %sn"</span> <span style="color: #990000">%</span> <span style="color: #990000">(</span>self<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">perimetre</span></span><span style="color: #990000">(),)</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="font-weight: bold"><span style="color: #000000">Carre</span></span><span style="color: #990000">(</span>Rectangle<span style="color: #990000">):</span>
+<span style="font-style: italic"><span style="color: #9A1900">        "Classe de carrés"</span></span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">__init__</span></span><span style="color: #990000">(</span>self<span style="color: #990000">,</span> cote <span style="color: #990000">=</span><span style="color: #993399">10</span><span style="color: #990000">):</span>
+        Rectangle<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">__init__</span></span><span style="color: #990000">(</span>self<span style="color: #990000">,</span> cote<span style="color: #990000">,</span> cote<span style="color: #990000">)</span>
+        self<span style="color: #990000">.</span>nom <span style="color: #990000">=</span><span style="color: #FF0000">"carré"</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> __name__ <span style="color: #990000">==</span> <span style="color: #FF0000">"__main__"</span><span style="color: #990000">:</span>
+        r1 <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">Rectangle</span></span><span style="color: #990000">(</span><span style="color: #993399">15</span><span style="color: #990000">,</span> <span style="color: #993399">30</span><span style="color: #990000">)</span>
+        r1<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">mesures</span></span><span style="color: #990000">()</span>
+        c1 <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">Carre</span></span><span style="color: #990000">(</span><span style="color: #993399">13</span><span style="color: #990000">)</span>
+        c1<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">mesures</span></span><span style="color: #990000">()</span></tt></pre></div></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>&gt;&gt;&gt; import formes
+&gt;&gt;&gt; f1 = formes.Rectangle(27, 12)
+&gt;&gt;&gt; f1.mesures()
+Un rectangle de 27 sur 12 a une surface de 27 * 12 = 324
+et un périmètre de (27 + 12) * 2 = 78
+&gt;&gt;&gt; f2 = formes.Carre(13)
+&gt;&gt;&gt; f2.mesures()
+Un carré de 13 sur 13
+a une surface de 13 * 13 = 169
+et un périmètre de (13 + 13) * 2 = 52</pre>
+</div></div>
+<div class="paragraph"><p> </p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img alt="Note" src="data:image/png;base64,
+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">
+</td>
+<td class="content">
+<div class="paragraph"><p>rmq : if <span class="monospaced"><em>name</em> == "<em>main</em>"</span> : pour choisir si le module est
+appelé tel quel ou en tant que module : donc un module est un objet
+aussi</p></div>
+</td>
+</tr></table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr></div>
+<div id="footer">
+<div id="footer-text">
+Version 1.0<br>
+Last updated 2012-10-19 23:59:26 CEST
+</div>
+</div>
+</body>
+</html>

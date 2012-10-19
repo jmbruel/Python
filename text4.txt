@@ -1,0 +1,21 @@
+>>> nombres = [17, 38, 10, 25, 72]
+>>> nombres.sort() # trier la liste
+>>> nombres
+[10, 17, 25, 38, 72]
+>>> nombres.append(12) # ajouter un élément à la fin
+>>> nombres
+[10, 17, 25, 38, 72, 12]
+>>> nombres.reverse() # inverser l'ordre des éléments
+>>> nombres
+[12, 72, 38, 25, 17, 10]
+>>> nombres.index(17) # retrouver l'index d'un élément
+4
+>>> nombres.remove(38) # enlever (effacer) un élément
+>>> nombres
+[12, 72, 25, 17, 10]
+>>> del nombres[2]
+>>> nombres
+[12, 72, 17, 10]
+>>> del nombres[1:3]
+>>> nombres
+[12, 10]

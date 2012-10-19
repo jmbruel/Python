@@ -1,0 +1,2022 @@
+:title: Notes Python
+:doctype: article
+:description: Notes de cours sur Python
+:Author: Cédric Gava (et Jean-Michel Bruel)
+:Author Initials: CG
+:Email: gava.c@free.fr
+:jmb: Jean-Michel Bruel
+:jmbmail: jean-michel.bruel@univ-tlse2.fr
+:Revision: 1.0
+:localdate: {sys: date +%d/%m/%Y}
+:Date: {localdate}
+:startdate: 29/09/2012
+:images: images
+
+//----------- définitions --------------
+:asciidoc: http://www.methods.co.nz/asciidoc[AsciiDoc]
+:eclipse: http://www.eclipse.org/[eclipse]
+:cg: mailto:gava.c@free.fr[Cédric Gava]
+//----------- dck.js --------------
+// swiss, neon beamer
+:deckjs_theme: web-2.0 
+
+//fade, horizontal-slide, vertical-slide
+:deckjs_transition: horizontal-slide
+
+///////////////////////
+	AsciiDoc use `source-highlight` as default highlighter.
+
+	Styles available for pygment highlighter:
+	monokai, manni, perldoc, borland, colorful, default, murphy, vs, trac,
+	tango, fruity, autumn, bw, emacs, vim, pastie, friendly, native,
+
+	Uncomment following two lines if you want to highlight your code
+	with `Pygments`.
+///////////////////////
+//:pygments:
+//:pygments_style: native
+
+///////////////////////
+	Uncomment following line if you want to scroll inside slides
+	with {down,up} arrow keys.
+///////////////////////
+:scrollable:
+
+///////////////////////
+	Uncomment following line if you want to link css and js file 
+	from outside instead of embedding them into the output file.
+///////////////////////
+//:linkcss:
+
+= {title}
+
+:leveloffset: 1
+
+Avant-Propos
+============
+Ces notes de cours sont une version mise à jour des notes de cours de {cg}
+par {jmb}.
+Ce document a été généré par mailto:{jmbmail}[{jmb}] via {asciidoc} (version +8.6.8+) de 'Stuart Rackham'.
+
+Pour l'instant ce document est libre d'utilisation et géré par la 'Licence Creative Commons'. 
+image:../images/icons/88x31.png["Licence Creative 
+Commons",style="border-width:0",link="http://creativecommons.org/licenses/by-sa/3.0/"]
+http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternité - Partage à l&#39;Identique 3.0 non transposé].
+
+Introduction
+============
+
+-   Python est **dynamique** (l'interpréteur peut évaluer des chaînes de
+    caractères représentant des expressions ou des instructions Python),
+    **orthogonal** (un petit nombre de concepts suffit à engendrer des
+    constructions très riches), **réflectif** (il supporte la
+    *métaprogrammation*, par exemple la capacité pour un objet de se
+    rajouter ou de s'enlever des attributs ou des méthodes, ou même de
+    changer de classe en cours d'exécution) et **introspectif** (un grand
+    nombre d'outils de développement, comme le *debugger* ou le
+    *profiler*, sont implantés en Python lui-même).
+-   Comme *Scheme* ou *SmallTalk*, Python est dynamiquement typé. Tout
+    objet manipulable par le programmeur possède un type bien défini à
+    l'exécution, qui n'a pas besoin d'être déclaré à l'avance.
+-   Python possède actuellement deux implémentations. L'une,
+    **interprétée**, dans laquelle les programmes Python sont compilés
+    en instructions portables, puis exécutés par une machine virtuelle
+    (comme pour Java, avec une différence importante: Java étant
+    statiquement typé, il est beaucoup plus facile d'accélérer
+    l'exécution d'un programme Java que d'un programme Python).
+-   L'autre génère directement du *bytecode* Java.
+-   Python est **extensible**: comme *Tcl* ou *Guile*, on peut facilement
+    l'interfacer avec des bibliothèques C existantes. On peut aussi s'en servir comme d'un
+    langage d'extension pour des systèmes logiciels complexes.
+
+Mots du langage
+---------------
+
+.Mots réservés du langage
+[align="center",cols="^1,^1,^1,^1,^1,^1",width="90%"]
+|======================
+| and | assert | break | class | continue | def
+| del | elif | else | except | exec | finally 
+| for | from | global | if | import | in
+| is | lambda | not | or | pass | print
+| raise | return | try | while | yield | 
+|======================
+
+Bases
+-----
+
+...................
+>>> print msg
+Quoi de neuf ?
+...................
+
+Priorité des opérations
+-----------------------
+
+L'acronyme **PEMDAS** :
+
+-   **P** pour ***parenthèses***. Ce sont elles qui ont la plus haute
+    priorité. Elles vous permettent donc de « forcer » l'évaluation
+    d'une expression dans l'ordre que vous voulez. +
+    Ainsi +++2*(3-1)=4+++, et +++(1+1)**(5-2)=8+++.
+-   **E** pour ***exposants***. Les exposants sont évalués ensuite, avant
+    les autres opérations. +
+	Ainsi +++2**1+1=3+++ (et non 4), et +++3*1**10=3+++ (et non
+    59049 !).
+-   **M** et **D** pour ***multiplication*** et ***division***, qui ont la
+    même priorité. Elles sont évaluées avant l'***addition*** **A** et la
+    ***soustraction*** **S**, lesquelles sont donc effectuées en dernier
+    lieu. Ainsi +++2*3-1 = 5+++ (plutôt que 4), et +++2/3-1 = -1+++.
+
+[NOTE]
+====
+(Rappelez-vous que par défaut Python effectue une division
+***entière***)
+====
+
+[TIP]
+====
+Ne comptez pas sur les priorités par défaut. Parenthésez! Votre code sera plus lisible.
+====
+
+Composition
+-----------
+
+/////////
+[source,python]
+----------------------------------------------------------------------
+h, m, s = 15, 27, 34
+print "nombre de secondes écoulées depuis minuit = ", h*3600 +m*60 + s
+----------------------------------------------------------------------
+/////////
+
+...................
+>>> h, m, s = 15, 27, 34
+>>> print "nombre de secondes écoulées depuis minuit = ", h*3600 +m*60 + s
+nombre de secondes coules depuis minuit =  55654
+...................
+
+[WARNING]
+====
+Attention cependant : il y a une limite à ce que vous pouvez combiner
+ainsi :
+
+Ce que vous placez à la gauche du signe égale dans une expression doit
+toujours être une variable, et non une expression.
+
+**m + 1 = b** est tout à fait ***illégal***
+
+====
+
+
+Contrôle du flux d’instructions
+===============================
+
+Opérateurs de comparaison
+-------------------------
+
+La condition évaluée après l'instruction if peut contenir les
+*opérateurs de comparaison* suivants :
+
+...................
+x == y		# x est égal à y
+x != y		# x est différent de y
+x > y		# x est plus grand que y
+x < y		# x est plus petit que y
+x >= y		# x est plus grand que, ou égal à y
+x <= y		# x est plus petit que, ou égal à y
+...................
+
+Instructions composées – Blocs d'instructions
+---------------------------------------------
+
+image:Python-notes_fichiers/image002.gif[width="30%"]
+
+**Ligne d'en-tête:**
+
+**première instruction du bloc**
+
+**... ...**
+
+**... ...**
+
+**dernière instruction du bloc**
+
+S'il y a plusieurs instructions indentées sous la ligne d'en-tête,
+***elles doivent l'être exactement au même niveau.***
+
+***Les limites des instructions et des blocs sont définies par la mise
+en page.*** Sous Python, c'est le caractère de fin de ligne qui joue ce
+rôle.
+
+***Instruction composée =***
+
+***En-tête  + double point + bloc d'instructions indenté***
+
+ 
+
+Instructions répétitives
+========================
+
+Ré-affectation
+--------------
+
+...................
+>>> a, b, c, d = 3, 4, 5, 7
+...................
+
+Supposons par exemple que nous voulions maintenant échanger les valeurs
+des variables *a* et *c*. Comment faire ?
+
+...................
+>>> a, b = b, a
+...................
+
+Remarque concernant les caractères accentués et spéciaux
+--------------------------------------------------------
+
+A partir de la version 2.3, il est vivement recommandé aux francophones
+d'inclure l'un des pseudo-commentaires suivants au début de tous leurs
+scripts Python (obligatoirement à la 1e ou à la 2e ligne) :
+
+[source,python]
+----------------------------------------------------------------------
+# -*- coding:Latin-1 -*-
+----------------------------------------------------------------------
+
+Ou bien :
+
+[source,python]
+----------------------------------------------------------------------
+# -*- coding:Utf-8 -*-
+----------------------------------------------------------------------
+
+Ces pseudo-commentaires indiquent à Python que vous utiliserez dans
+votre script :
+
+-   soit le jeu de caractères accentués correspondant aux principales
+    langues de l'Europe occidentale (Français, Italien, Portugais,
+    etc.), codé sur un seul octet suivant la norme ISO-8859.
+-   soit le système de codage mondial sur deux octets appelé Unicode
+    (dont la variante Utf-8 ne code que les caractères « spéciaux » sur
+    deux octets, les caractères du jeu ASCII standard restant codés sur
+    un seul octet). Ce dernier système commence à se répandre de plus en
+    plus, car il présente l'avantage de permettre la coexistence de
+    caractères de toutes origines dans le même document (caractères
+    grecs, arabes, cyrilliques, japonais, etc.)
+
+Principaux types de données
+===========================
+
+Seule la valeur zéro est « fausse ».
+
+Les types « integer » et « long »
+---------------------------------
+
+...................
+>>> a, b, c = 1, 1, 1
+>>> while c<49:
+print c, " : ", b, type(b)
+a, b, c = b, a+b, c+1
+...
+...
+... (affichage des 43 premiers termes)
+...
+44 : 1134903170 <type 'int'>
+45 : 1836311903 <type 'int'>
+46 : 2971215073 <type 'long'>
+47 : 4807526976 <type 'long'>
+48 : 7778742049 <type 'long'>
+...................
+
+Le type « float »
+-----------------
+
+...................
+>>> a, b, c = 1., 2., 1 # => a et b seront du type 'float'
+>>> while c <18:
+a, b, c = b, b*a, c+1
+print b
+...................
+
+Le type « string » (chaîne de caractères)
+-----------------------------------------
+
+Sous Python, une donnée de type *string* est une suite quelconque de
+caractères délimitée soit par des apostrophes (*simple quotes*), soit
+par des guillemets (*double quotes*).
+
+...................
+>>> phrase1 = 'les oeufs durs.'**
+>>> phrase2 = '"Oui", répondit-il,'**
+>>> phrase3 = "j'aime bien"**
+>>> print phrase2, phrase3, phrase1**
+"Oui", répondit-il, j'aime bien les oeufs durs.
+...................
+
+[NOTE]
+=======
+Remarquez aussi encore une fois que l'instruction *print* insère un
+espace entre les éléments affichés. 
+=======
+
+Le caractère spécial «  » (*antislash*) permet quelques subtilités complémentaires :
+
+-   En premier lieu, il permet d'écrire sur plusieurs lignes une
+    commande qui serait trop longue pour tenir sur une seule (cela vaut
+    pour n'importe quel type de commande).
+-   A l'intérieur d'une chaîne de caractères, l'*antislash* permet
+    d'insérer un certain nombre de codes spéciaux (sauts à la ligne,
+    apostrophes, guillemets, etc.). 
+
+Exemples :
+
+...................
+>>> txt3 = '"N'est-ce pas ?" répondit-elle.'
+>>> print txt3
+"N'est-ce pas ?" répondit-elle.
+...................
+
+...................
+>>> Salut = "Ceci est une chaîne plutôt longuen contenant plusieurs lignes 
+    de texte (Ceci fonctionne\n de la même façon en C/C++.\n\
+    Notez que les blancs en début\n de ligne sont significatifs.\n"
+>>> print Salut
+Ceci est une chane plutt longue
+ contenant plusieurs lignes     de texte (Ceci fonctionne
+ de la mme faon en C/C++.
+    Notez que les blancs en dbut
+ de ligne sont significatifs.
+
+...................
+
+[NOTE]
+=======
+
+-   La séquence +\n+ dans une chaîne provoque un saut à la ligne.
+-   La séquence +\'+ permet d'insérer une apostrophe dans une chaîne
+    délimitée par des apostrophes
+-   Rappelons encore ici que la casse est significative dans les noms de
+    variables (Il faut respecter scrupuleusement le choix initial de
+    majuscules ou minuscules).
+
+=======
+
+« Triple quotes » :
+
+Pour insérer plus aisément des caractères spéciaux ou « exotiques » dans
+une chaîne, sans faire usage de l'*antislash*, ou pour faire accepter l'*antislash* lui-même
+dans la chaîne, on peut encore délimiter la chaîne à l'aide de *triples guillemets* ou de *triples
+apostrophes* :
+
+...................
+>>> a1 = """
+... Usage: trucmuche[OPTIONS]
+... { -h
+... -H hôte
+... }"""
+>>> print a1
+Usage: trucmuche[OPTIONS]
+{ -h
+-H hôte
+}
+...................
+
+
+Accès aux caractères individuels d'une chaîne
+
+...................
+>>> ch = "Stéphanie"
+>>> print ch[0], ch[3]
+S p
+...................
+
+Opérations élémentaires sur les chaînes par fonctions
+*concaténation* et on la réalise sous Python à l'aide de l'opérateur +.
+
+...................
+>>> a = 'Petit poisson'
+>>> b = ' deviendra grand'
+>>> c = a + b
+>>> print c
+petit poisson deviendra grand
+...................
+
+*len() :*
+
+...................
+>>> print len(c)
+...................
+
+*Convertir nombre en chaîne*
+
+...................
+>>> ch = '8647'
+>>> print ch + 45
+==> * erreur * on ne peut pas additionner une chaîne et un
+nombre
+>>> n = int(ch)
+>>> print n + 65
+8712
+...................
+
+Les listes (première approche)
+------------------------------
+
+les *listes*, les *tuples*et les *dictionnaires*.
+
+Sous Python, on peut définir une liste comme *une collection
+d'éléments séparés par des virgules, l'ensemble étant enfermé dans des
+crochets*
+
+Exemple :
+
+...................
+>>> jour = ['lundi', 'mardi', 'mercredi', 1800, 20.357, 'jeudi',
+'vendredi']
+>>> print jour
+['lundi', 'mardi', 'mercredi', 1800, 20.357, 'jeudi', 'vendredi']
+>>> print jour[2]
+mercredi
+>>> print jour[4]
+20.357
+>>> len(jour)
+7
+>>> del(jour[4])
+>>> print jour
+['lundi', 'mardi', 'mercredi', 'juillet', 'jeudi', 'vendredi']
+...................
+
+Les listes (objet)
+
+...................
+>>> jour.append('samedi')
+>>> print jour
+['lundi', 'mardi', 'mercredi', 'juillet', 'jeudi', 'vendredi',
+'samedi']
+...................
+
+Fonctions prédéfinies
+=====================
+
+Interaction avec l'utilisateur : la fonction input()
+----------------------------------------------------
+
+...................
+>>> print 'Veuillez entrer un nombre positif quelconque : ', nn = input()
+>>> print 'Le carré de', nn, 'vaut', nn**2
+...................
+
+-   La fonction +input()+ renvoie une valeur dont le type correspond à
+    ce que l'utilisateur a entré. Dans notre exemple, la variable
+    +nn+ contiendra donc un entier, une chaîne de caractères, un réel,
+    etc. suivant ce que l'utilisateur aura décidé. Si l'utilisateur
+    souhaite entrer une chaîne de caractères, il doit l'entrer comme
+    telle, *c'est-à-dire incluse entre des apostrophes ou des
+    guillemets*. Nous verrons plus loin qu'un bon script doit
+    toujours vérifier si le type ainsi entré correspond bien à ce que
+    l'on attend pour la suite du programme.
+
+-   Pour cette raison, il sera souvent préférable d'utiliser dans vos
+    scripts la fonction similaire +raw_input()+, laquelle renvoie
+    toujours *une chaîne de caractères*. Vous pouvez ensuite
+    convertir cette chaîne en nombre à l'aide de +int()+ ou de
+    +float()+. 
+    
+Exemple :
+
+...................
+>>> a = raw_input('Entrez une donnée : ')
+Entrez une donnée : 52.37
+>>> type(a)
+<type 'str'>
+>>> b = float(a) # conversion en valeur numérique
+>>> type(b)
+<type 'float'>
+...................
+
+Importer un module de fonctions
+-------------------------------
+
+Démo : utilisation des fonctions du module +<math>+
+
+[source,python]
+----------------------------------------------------------------------
+include::code1.py[]
+----------------------------------------------------------------------
+
+Contrôle du flux - Utilisation d'une liste simple
+-------------------------------------------------
+
+[source,python]
+----------------------------------------------------------------------
+include::code2.py[]
+----------------------------------------------------------------------
+
+
+
+Boucle while - Instructions imbriquées
+======================================
+
+[source,python]
+----------------------------------------------------------------------
+include::code3.py[]
+----------------------------------------------------------------------
+
+Fonctions originales
+====================
+
+[source,python]
+----------------------------------------------------------------------
+def nomDeLaFonction(*liste de paramètres*):
+...
+*bloc d'instructions*
+...
+----------------------------------------------------------------------
+
+Avec valeur retournéer
+
+[source,python]
+----------------------------------------------------------------------
+include::code4.py[]
+----------------------------------------------------------------------
+
+En fait, le corps principal d'un programme Python constitue lui-même une
+entité un peu particulière, qui est toujours reconnue dans le
+fonctionnement interne de l'interpréteur sous le nom réservé
++__main__+ (le mot +main+ signifie « principal », en anglais. Il
+est encadré par des caractères « souligné » en double, pour éviter toute
+confusion avec d'autres symboles). L'exécution d'un script commence
+toujours avec la première instruction de cette entité +__main__+,
+où qu'elle puisse se trouver dans le listing. Les instructions qui
+suivent sont alors exécutées l'une après l'autre, dans l'ordre, jusqu'au
+premier appel de fonction. Un appel de fonction est comme un détour dans
+le flux de l'exécution : au lieu de passer à l'instruction suivante,
+l'interpréteur exécute la fonction appelée, puis revient au programme
+appelant pour continuer le travail interrompu. Pour que ce mécanisme
+puisse fonctionner, il faut que l'interpréteur ait pu lire la définition
+de la fonction *avant* l'entité +__main__+, et celle-ci sera
+donc placée en général à la fin du script.
+
+Documentation de fonction
+-------------------------
+
+...................
+>>> def essai():
+... "Cette fonction est bien documentée mais ne fait presque rien."
+... print "rien à signaler"
+>>> essai()
+rien à signaler
+>>> print essai.__doc__
+Cette fonction est bien documentée mais ne fait presque rien.
+...................
+
+
+Typage des paramètres
+---------------------
+
+Le type d'un paramètre sera le même que celui
+de l'argument qui aura été transmis à la fonction. 
+
+Exemple :
+
+...................
+>>> def afficher3fois(arg):
+... print arg, arg, arg
+>>> afficher3fois(5)
+5 5 5
+>>> afficher3fois('zut')
+zut zut zut
+>>> afficher3fois([5, 7])
+[5, 7] [5, 7] [5, 7]
+>>> afficher3fois(6**2)
+36 36 36
+...................
+
+Valeurs par défaut pour les paramètres
+--------------------------------------
+
+...................
+>>> def politesse(nom, vedette ='Monsieur'):
+... print "Veuillez agréer ,", vedette, nom, ", mes salutations
+distinguées."
+>>> politesse('Dupont')
+Veuillez agréer , Monsieur Dupont , mes salutations distinguées.
+>>> politesse('Durand', 'Mademoiselle')
+Veuillez agréer , Mademoiselle Durand , mes salutations distinguées.
+...................
+
+Dans ce cas, cependant, les paramètres sans valeur par défaut doivent
+précéder les autres dans la liste.
+
+Arguments avec étiquettes
+-------------------------
+
+On peut faire appel à la fonction en fournissant les arguments
+correspondants dans n'importe quel ordre, à la condition de désigner nommément les
+paramètres correspondants.
+
+...................
+>>> def oiseau(voltage=100, etat='allumé', action='danser la java'):
+... print 'Ce perroquet ne pourra pas', action
+... print 'si vous le branchez sur', voltage, 'volts !'
+... print "L'auteur de ceci est complètement", etat
+>>> oiseau(etat='givré', voltage=250, action='vous approuver')
+Ce perroquet ne pourra pas vous approuver si vous le branchez sur 250 volts !
+L'auteur de ceci est complètement givré
+...................
+
+Utilisation de fenêtres et de graphismes
+========================================
+
+Avec Python, la bibliothèque graphique la plus utilisée jusqu'à présent
+est la bibliothèque *Tkinter*, qui est une adaptation de la
+bibliothèque *Tk* développée à l'origine pour le langage *Tcl*.
+Plusieurs autres bibliothèques graphiques fort intéressantes ont été
+proposées pour Python : *wxPython*, *pyQT*, *pyGTK*, etc. Il existe également des
+possibilités d'utiliser les bibliothèques de *widgetsJava* et les
+*MFC*de *Windows*.
+
+Les classes de widgets Tkinter
+
+[NOTE]
+======
+Au long de ce cours, nous vous présenterons petit à petit
+le mode d'utilisation d'un certain nombre de widgets. Comprenez bien
+cependant qu'il n'entre pas dans nos intentions de fournir ici un manuel
+de référence complet sur Tkinter. Nous limiterons nos explications aux
+widgets qui nous semblent les plus intéressants d'un point de vue
+didactique, c'est-à-dire ceux qui pourront nous aider à mettre en
+évidence des concepts importants, tel le concept de classe.
+======
+
+Widget
+
+Description
+
+Button
+
+Un bouton classique, à utiliser pour provoquer l'exécution d'une
+commande quelconque.
+
+Canvas
+
+Un espace pour disposer divers éléments graphiques. Ce widget peut être
+utilisé pour dessiner, créer des éditeurs graphiques, et aussi pour
+implémenter des widgets personnalisés.
+
+Checkbutton
+
+Une « case à cocher » qui peut prendre deux états distincts (la case est
+cochée ou non). Un clic sur ce widget provoque le changement d'état.
+
+Entry
+
+Un champ d'entrée, dans lequel l'utilisateur du programme pourra insérer
+un texte quelconque à partir du clavier.
+
+Frame
+
+Une surface rectangulaire dans la fenêtre, où l'on peut disposer
+d'autres widgets.Cette surface peut être colorée. Elle peut aussi être
+décorée d'une bordure.
+
+Label
+
+Un texte (ou libellé) quelconque (éventuellement une image).
+
+Listbox
+
+Une liste de choix proposés à l'utilisateur, généralement présentés dans
+une sorte de boîte. On peut également configurer la Listbox de telle
+manière qu'elle se comporte comme une série de « boutons radio » ou de
+cases à cocher.
+
+Menu
+
+Un menu. Ce peut être un menu déroulant attaché à la barre de titre, ou
+bien un menu « pop up » apparaissant n'importe où à la suite d'un clic.
+
+Menubutton
+
+Un bouton-menu, à utiliser pour implémenter des menus déroulants.
+
+Message
+
+Permet d'afficher un texte. Ce widget est une variante du widget Label,
+qui permet d'adapter automatiquement le texte affiché à une certaine
+taille ou à un certain rapport largeur/hauteur.
+
+Radiobutton
+
+Représente (par un point noir dans un petit cercle) une des valeurs
+d'une variable qui peut en posséder plusieurs. Cliquer sur un « bouton
+radio » donne la valeur correspondante à la variable, et "vide" tous les
+autres boutons radio associés à la même variable.
+
+Scale
+
+Vous permet de faire varier de manière très visuelle la valeur d'une
+variable, en déplaçant un curseur le long d'une règle.
+
+Scrollbar
+
+« ascenseur » ou « barre de défilement » que vous pouvez utiliser en
+association avec les autres widgets : Canvas, Entry, Listbox, Text.
+
+Text
+
+Affichage de texte formaté. Permet aussi à l'utilisateur d'éditer le
+texte affiché. Des images peuvent également être insérées.
+
+Toplevel
+
+Une fenêtre affichée séparément, « par-dessus ».
+
+Ces classes de *widgets* intègrent chacune un grand nombre de méthodes.
+On peut aussi leur associer (lier) des événements, comme nous venons de
+le voir dans les pages précédentes. Vous allez apprendre en outre que
+tous ces widgets peuvent être positionnés dans les fenêtres à l'aide de
+trois méthodes différentes : la méthode grid(), la méthode
+pack() et la méthode place().
+
+Composition d'instructions pour écrire un code plus compact
+-----------------------------------------------------------
+
+[source,python]
+----------------------------------------------------------------------
+txt1 = Label(fen1, text ='Premier champ :')
+txt1.grid(row =1, sticky =E)
+----------------------------------------------------------------------
+
+du script précédent par une seule, telle que :
+
+[source,python]
+----------------------------------------------------------------------
+Label(fen1, text ='Premier champ :').grid(row =1, sticky =E)
+----------------------------------------------------------------------
+
+Dans cette nouvelle écriture, vous pouvez constater que nous faisons
+l'économie de la variable intermédiaire +txt1+.
+
+Les fichiers
+============
+
+Noms de fichiers - Répertoire courant
+-------------------------------------
+
+...................
+>>> from os import chdir
+>>> chdir("/home/jules/exercices")
+...................
+
+Les deux formes d'importation
+-----------------------------
+
+Voici un exemple de la première méthode :
+
+...................
+>>> import os
+>>> rep_cour = os.getcwd()
+>>> print rep_cour
+/Users/bruel/dev/asciidoc/Python
+...................
+ 
+La première ligne de cet exemple importe *l'intégralité* du module
+os, lequel contient de nombreuses fonctions intéressantes pour l'accès au système
+d'exploitation. La seconde ligne utilise la fonction +getcwd()+ du
+module +os+. Comme vous pouvez le constater, la fonction
++getcwd()+ renvoie le nom du répertoire courant (+getcwd+ = _get current
+working directory_*).
+
+Par comparaison, voici un exemple similaire utilisant la seconde méthode
+d'importation :
+
+...................
+>>> from os import getcwd
+>>> rep_cour = getcwd()
+>>> print rep_cour
+/Users/bruel/dev/asciidoc/Python
+...................
+ 
+Nous pouvons de la même manière importer plusieurs fonctions du même
+module :
+
+...................
+>>> from math import sqrt, pi, sin, cos
+>>> print pi
+3.14159265359
+>>> print sqrt(5) # racine carrée de 5
+2.2360679775
+>>> print sin(pi/6) # sinus d'un angle de 30°
+0.5
+...................
+ 
+
+...................
+from Tkinter import *
+...................
+
+Cette méthode d'importation présente l'avantage d'alléger l'écriture du
+code. Elle présente l'inconvénient (surtout dans sa dernière forme,
+celle qui importe toutes les fonctions d'un module) d'encombrer l'espace
+de noms courant.
+
+Écriture séquentielle dans un fichier
+-------------------------------------
+
+Sous Python, l'accès aux fichiers est assuré par l'intermédiaire d'un 
+« *objet-fichier* » que l'on crée à l'aide de la fonction interne
++open()+. Après avoir appelé cette fonction, vous pouvez lire et
+écrire dans le fichier en utilisant les méthodes spécifiques de cet
+objet-fichier.
+
+...................
+>>> obFichier = open('Monfichier','a')
+>>> obFichier.write('Bonjour, fichier !')
+>>> obFichier.write("Quel beau temps, aujourd'hui !")
+>>> obFichier.close()
+...................
+
+Lecture séquentielle d'un fichier
+---------------------------------
+
+...................
+>>> ofi = open('Monfichier', 'r')
+>>> t = ofi.read()
+>>> print t
+Bonjour, fichier !Quel beau temps, aujourd'hui !
+>>> ofi.close()
+...................
+
+Comme on pouvait s'y attendre, la méthode read()lit les données
+présentes dans le fichier et les transfère dans une variable de type «
+chaîne » (*string*) . Si on utilise cette méthode sans argument, la
+totalité du fichier est transférée.
+ 
+La méthode +read()+ peut également être utilisée avec un argument.
+Celui-ci indiquera combien de caractères doivent être lus, à partir de
+la position déjà atteinte dans le fichier :
+
+...................
+>>> ofi = open('Monfichier', 'r')
+>>> t = ofi.read(7)
+>>> print t
+Bonjour
+>>> t = ofi.read(15)
+>>> print t
+, fichier !Quel
+...................
+
+Si la fin du fichier est déjà atteinte, +read()+ renvoie une chaîne
+vide
+
+...................
+>>> t = ofi.read()
+>>> print t
+>>> ofi.close()
+...................
+
+L'instruction break pour sortir d'une boucle
+--------------------------------------------
+
+...................
+def copieFichier(source, destination):
+	"copie intégrale d'un fichier"
+	fs = open(source, 'r')
+	fd = open(destination, 'w')
+	while 1:
+		txt = fs.read(50)
+		if txt =="":
+			break
+		fd.write(txt)
+		fs.close()
+	fd.close()
+return
+...................
+
+Fichiers texte
+--------------
+
+La méthode readline(), par exemple, ne lit qu'une seule ligne à la
+fois (en incluant le caractère de fin de ligne) :
+
+...................
+>>> f = open('Fichiertexte','r')
+>>> t = f.readline()
+>>> print t
+Ceci est la ligne un
+>>> print f.readline()
+Voici la ligne deux
+...................
+
+La méthode readlines()transfère toutes les lignes restantes dans une
+liste de chaînes :
+
+...................
+>>> t = f.readlines()
+>>> print t
+['Voici la ligne trois012', 'Voici la ligne quatre012']
+>>> f.close()
+...................
+
+Le script qui suit vous montre comment créer une fonction destinée à
+effectuer un certain
+
+traitement sur un fichier texte. En l'occurrence, il s'agit ici de
+recopier un fichier texte en omettant
+
+toutes les lignes qui commencent par un caractère '#' :
+
+...................
+def filtre(source,destination):
+	"recopier un fichier en éliminant les lignes de remarques"
+	fs = open(source, 'r')
+	fd = open(destination, 'w')
+	while 1:
+		txt = fs.readline()
+			if txt =='':
+				break
+			if txt[0] != '#':
+				fd.write(txt)
+		fs.close()
+	fd.close()
+return
+...................
+
+Enregistrement et restitution de variables diverses
+---------------------------------------------------
+
+L'argument de la méthode write()doit être une chaîne de caractères.
+Avec ce que nous avons appris jusqu'à présent, nous ne pouvons donc
+enregistrer d'autres types de valeurs qu'en les transformant d'abord en
+chaînes de caractères.
+
+Nous pouvons réaliser cela à l'aide de la fonction intégrée str():
+
+...................
+>>> x = 52
+>>> f.write(str(x))
+...................
+
+Problème : tous les types stockés sont des strings
+
+Il existe plusieurs solutions à ce genre de problèmes. L'une des
+meilleures consiste à importer un module Python spécialisé : le module
+pickle. Voici comment il s'utilise :
+
+...................
+>>> import pickle
+>>> f = open('Monfichier', 'w')
+>>> pickle.dump(a, f)
+>>> pickle.dump(b, f)
+>>> pickle.dump(c, f)
+>>> f.close()
+>>> f = open('Monfichier', 'r')
+>>> t = pickle.load(f)
+>>> print t, type(t)
+5 <type 'int'>
+>>> t = pickle.load(f)
+>>> print t, type(t)
+2.83 <type 'float'>
+>>> t = pickle.load(f)
+>>> print t, type(t)
+67 <type 'int'>
+>>> f.close()
+...................
+
+Pour cet exemple, on considère que les variables a, b et c contiennent
+les mêmes valeurs que dans l'exemple précédent. La fonction +dump()+ du
+module pickleattend deux arguments : le premier est la variable à
+enregistrer, le second est l'objet fichier dans lequel on travaille. La
+fonction pickle.load()effectue le travail inverse, c'est-à-dire la
+restitution de chaque variable avec son type.
+
+Vous pouvez aisément comprendre ce que font exactement les fonctions du
+module pickleen effectuant une lecture « classique » du fichier
+résultant, à l'aide de la méthode read()par exemple.
+
+Gestion des exceptions. Les instructions try – except - else
+------------------------------------------------------------
+
+...................
+>>> print 55/0
+ZeroDivisionError: integer division or modulo
+...................
+
+
+[source,python]
+----------------------------------------------------------------------
+filename = raw_input("Veuillez entrer un nom de fichier : ")
+try:
+f = open(filename, "r")
+except:
+print "Le fichier", filename, "est introuvable"
+----------------------------------------------------------------------
+
+Si nous estimons que ce genre de test est susceptible de rendre service
+à plusieurs endroits d'un programme, nous pouvons aussi l'inclure dans une fonction :
+
+[source,python]
+----------------------------------------------------------------------
+def existe(fname):
+try:
+f = open(fname,'r')
+f.close()
+return 1
+except:
+return 0
+
+filename = raw_input("Veuillez entrer le nom du fichier : ")
+if existe(filename):
+print "Ce fichier existe bel et bien."
+else:
+print "Le fichier", filename, "est introuvable."
+----------------------------------------------------------------------
+
+
+
+
+Approfondir les structures de données
+=====================================
+
+Le point sur les chaînes de caractères
+--------------------------------------
+
+les chaînes de caractères (ou *string*) constituent *un type de donnée
+composite*.
+
+En fait, les chaînes de caractères font partie d'une catégorie d'objets
+Python que l'on appelle des *séquences*, et dont font partie aussi
+les *listes* et les *tuples*. On peut effectuer sur les séquences tout un
+ensemble d'opérations similaires.
+
+
+=== Concaténation, Répétition
+
+Les chaînes peuvent être concaténéesavec l'opérateur +et
+répétéesavec l'opérateur \*:
+
+...................
+>>> n = 'abc' + 'def' # concaténation
+>>> m = 'zut ! ' * 4 # répétition
+>>> print n, m
+abcdef zut ! zut ! zut ! zut !
+...................
+
+=== surcharge des opérateurs.
+
+Remarquez au passage que les opérateurs + et * peuvent aussi être
+utilisés pour l'addition et la multiplication lorsqu'ils s'appliquent à
+des arguments numériques.
+
+=== Indiçage, extraction, longueur
+
+Les éléments d'une séquence sont toujours indicés (ou numérotés) de la
+même manière, c'est-à-dire *à partir de zéro*. Pour extraire un
+caractère d'une chaîne, il suffit d'indiquer son indice *entre
+crochets* :
+
+...................
+>>> nom = 'Cédric'
+>>> print nom[1], nom[3], nom[5]
+é r c
+...................
+
+*slicing* (« découpage en tranches ») :
+
+...................
+>>> ch = "Juliette"
+>>> print ch[0:3]
+Jul
+...................
+
+=== Parcours d'une séquence. L'instruction for ... in ...
+
+...................
+nom = 'Jacqueline'
+index = 0
+while index < len(nom):
+	print nom[index] + ' *',
+	index = index +1
+	nom = 'Jacqueline'
+	for caract in nom:
+		print caract + ' *',
+	liste = ['chien','chat','crocodile']
+	for animal in liste:
+		print 'longueur de la chaîne', animal, '=', len(animal)
+	divers = ['cheval', 3, 17.25, [5, 'Jean']]
+	for e in divers:
+		print e
+...................
+
+L'exécution de ce script donne :
+
+...................
+cheval
+3
+17.25
+[5, 'Jean']
+...................
+
+=== Appartenance d'un élément à une séquence. L'instruction in utilisée seule
+
+...................
+car = "e"
+voyelles = "aeiouyAEIOUY"
+if car in voyelles:
+	print car, "est une voyelle"
+...................
+
+...................
+n = 5
+premiers = [1, 2, 3, 5, 7, 11, 13, 17]
+if n in premiers:
+	print n, "fait partie de notre liste de nombres premiers"
+...................
+
+=== Les chaînes sont des séquences non modifiables
+
+Vous ne pouvez pas modifier le contenu d'une chaîne existante.
+
+...................
+salut = 'bonjour à tous'
+salut[0] = 'B'
+print salut
+...................
+
+*interdit, utiliser*
+
+...................
+salut = 'bonjour à tous'
+salut = 'B' + salut[1:]
+print salut
+...................
+
+=== Les chaînes sont comparables
+
+...................
+mot = raw_input("Entrez un mot quelconque : ")
+if mot < "limonade":
+	place = "précède"
+elif mot > "limonade":
+	place = "suit"
+else:
+	place = "se confond avec"
+
+print "Le mot", mot, place, "le mot 'limonade' dans l'ordre alphabétique"
+...................
+
+La fonction +ord(ch)+ accepte n'importe quel caractère comme argument.
+En retour, elle fournit le code ASCII correspondant à ce caractère.
+Ainsi +ord('A')+ renvoie la valeur 65.
+
+La fonction +chr(num)+ fait exactement le contraire. L'argument qu'on
+lui transmet doit être un entier compris entre 0 et 255. En retour, on
+obtient le caractère ASCII correspondant : Ainsi +chr(65)+ renvoie le
+caractère A.
+
+=== Les chaînes sont des objets
+
+- +split()+ : convertit une chaîne en une liste de sous-chaînes. On
+peut choisir le caractère séparateur en le fournissant comme argument, sinon c'est un espace, par défaut :
+
+...................
+>>> c2 ="Votez pour moi"
+>>> a = c2.split()
+>>> print a
+['Votez', 'pour', 'moi']
+>>> c4 ="Cet exemple, parmi d'autres, peut encore servir"
+>>> c4.split(",")
+['Cet exemple', " parmi d'autres", ' peut encore servir']
+...................
+
+- +join(liste)+ : rassemble une liste de chaînes en une seule (Cette
+méthode fait donc l'inverse de la précédente). Attention : la chaîne à
+laquelle on applique cette méthode est celle qui servira de séparateur
+(un ou plusieurs caractères); l'argument transmis est la liste des
+chaînes à rassembler :
+
+...................
+>>> b2 = ["Salut","les","copains"]
+>>> print " ".join(b2)
+Salut les copains
+>>> print "---".join(b2)
+Salut---les---copains
+...................
+
+- +find(sch)+ cherche la position d'une sous-chaîne schdans la
+    chaîne :
+
+...................
+>>> ch1 = "Cette leçon vaut bien un fromage, sans doute ?"
+>>> ch2 = "fromage"
+>>> print ch1.find(ch2)
+25
+...................
+
+- +count(sch)+ : compte le nombre de sous-chaînes schdans la
+    chaîne :
+
+...................
+>>> ch1 = "Le héron au long bec emmanché d'un long cou"
+>>> ch2 = 'long'
+>>> print ch1.count(ch2)
+2
+...................
+
+- +lower()+ : convertit une chaîne en minuscules :
+
+...................
+>>> ch ="ATTENTION : Danger !"
+>>> print ch.lower()
+attention : danger !
+...................
+
+- +upper()+ : convertit une chaîne en majuscules :
+
+...................
+>>> ch = "Merci beaucoup"
+>>> print ch.upper()
+MERCI BEAUCOUP
+...................
+
+- +capitalize()+ : convertit en majuscule la première lettre d'une
+    chaîne :
+
+...................
+>>> b3 = "quel beau temps, aujourd'hui !"
+>>> print b3.capitalize()
+"Quel beau temps, aujourd'hui !"
+...................
+
+- +swapcase()+ : convertit toutes les majuscules en minuscules et
+    vice-versa :
+
+...................
+>>> ch5 = "La CIGALE et la FOURMI"
+>>> print ch5.swapcase()
+lA cigale ET LA fourmi
+...................
+
+- +strip()+ : enlève les espaces éventuels au début et à la fin de la
+    chaîne :
+
+...................
+>>> ch = " Monty Python "
+>>> ch.strip()
+'Monty Python'
+...................
+
+- +replace(c1, c2)+ : remplace tous les caractères +c1+ par des
+    caractères +c2+ dans la chaîne :
+
+...................
+>>> ch8 = "Si ce n'est toi c'est donc ton frère"
+>>> print ch8.replace(" ","*")
+Si*ce*n'est*toi*c'est*donc*ton*frère
+...................
+
+- +index(c)+ : retrouve l'index de la première occurrence du
+    caractère +c+ dans la chaîne :
+
+...................
+>>> ch9 ="Portez ce vieux whisky au juge blond qui fume"
+>>> print ch9.index("w")
+16
+...................
+
+Dans la plupart de ces méthodes, il est possible de préciser quelle
+portion de la chaîne doit être traitée, en ajoutant des arguments
+supplémentaires. Exemple :
+
+...................
+>>> print ch9.index("e") 	# cherche à partir du début de la chaîne
+4 							# et trouve le premier 'e'
+>>> print ch9.index("e",5)	# cherche seulement à partir de l'indice 5
+8							# et trouve le second 'e'
+>>> print ch9.index("e",15)	# cherche à partir du caractère n° 15
+29							# et trouve le quatrième 'e'
+...................
+
+Fonctions intégrées
+
+- +len(ch)+ renvoie la longueur de la chaîne +ch+ (c'est-à-dire son
+nombre de caractères)
+- +float(ch)+ convertit la chaîne chen un nombre réel (*float*)
+
+(bien entendu, cela ne pourra fonctionner que si la chaîne représente
+bien un tel nombre) :
+
+...................
+>>> a = float("12.36")
+>>> print a + 5
+17.36
+...................
+
+- +int(ch)+ convertit la chaîne chen un nombre entier :
+
+...................
+>>> a = int("184")
+>>> print a + 20
+204
+...................
+
+Formatage des chaînes de caractères de l'opérateur % : à gauche vous fournissez une chaîne de formatage (un
+patron, en quelque sorte) qui contient des *marqueurs de conversion*,
+
+Exemple :
+
+...................
+>>> coul ="verte"
+>>> temp = 1.347 + 15.9
+>>> print "La couleur est %s et la température vaut %s °C" %(coul,temp)
+La couleur est verte et la température vaut 17.247 °C
+...................
+
+Le marqueur %s accepte n'importe quel objet (chaîne, entier, float,
+...). Vous pouvez expérimenter d'autres mises en forme en utilisant
+d'autres marqueurs. Essayez par exemple de remplacer le deuxième
+%spar %d, ou par %8.2f, ou encore par %8.2g. Le marqueur
+%dattend un nombre et le convertit en entier ; les marqueurs
+%fet %gattendent des réels et peuvent déterminer la largeur et
+la précision qui seront affichées.
+
+Le point sur les listes
+-----------------------
+
+=== Définition d'une liste - Accès à ses éléments
+
+Vous savez déjà que l'on délimite une liste à l'aide de crochets :
+
+...................
+include::text1.txt[]
+...................
+
+[NOTE]
+=====
+Les listes sont circulaires !
+=====
+
+=== Les listes sont modifiables
+
+Contrairement aux chaînes de caractères, les listes sont des séquences
+*modifiables*. Cela nous permettra de construire plus tard des
+listes de grande taille, morceau par morceau, d'une manière dynamique
+(c'est-à-dire à l'aide d'un algorithme quelconque).
+
+...................
+include::text2.txt[]
+...................
+
+Si l'on souhaite accéder à un élément faisant partie d'une liste,
+elle-même située dans une autre liste, il suffit d'indiquer les deux
+index entre crochets successifs :
+
+...................
+include::text3.txt[]
+...................
+
+=== Les listes sont des objets
+
+...................
+include::text4.txt[]
+...................
+
+Notez bien la différence entre la méthode +remove()+ et l'instruction
++del+ : +del+ travaille avec *un index* ou une tranche d'index,
+tandis que +remove()+ recherche *une valeur* (si plusieurs éléments
+de la liste possèdent la même valeur, seul le premier est effacé).
+
+=== Techniques de « slicing » avancé pour modifier une liste
+
+a) Insertion d'un ou plusieurs éléments n'importe où dans une liste
+
+...................
+include::text5.txt[]
+...................
+
+b) Suppression / remplacement d'éléments
+
+...................
+include::text6.txt[]
+...................
+ 
+=== Création d'une liste de nombres à l'aide de la fonction range()
+
+Si vous devez manipuler des séquences de nombres, vous pouvez les créer
+très aisément à l'aide de cette fonction :
+
+...................
+>>> range(10)
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+...................
+
+On peut aussi utiliser +range()+ avec deux, ou même trois arguments
+séparés par des virgules, afin de générer des séquences de nombres plus spécifiques :
+
+...................
+>>> range(5,13)
+[5, 6, 7, 8, 9, 10, 11, 12]
+>>> range(3,16,3)
+[3, 6, 9, 12, 15]
+...................
+
+=== Parcours d'une liste à l'aide de for, range() et len()
+
+...................
+>>> prov =
+['La','raison','du','plus','fort','est','toujours','la','meilleure']
+>>> for mot in prov:
+print mot,
+La raison du plus fort est toujours la meilleure
+...................
+
+Il est très pratique de combiner les fonctions +range()+ et
++len()+ pour obtenir automatiquement tous les indices d'une séquence (liste ou chaîne). Exemple :
+
+...................
+fable = ['Maître','Corbeau','sur','un','arbre','perché']
+for index in range(len(fable)):
+	print index, fable[index]
+...................
+
+L'exécution de ce script donne le résultat :
+
+...................
+0 Maître
+1 Corbeau
+2 sur
+3 un
+4 arbre
+5 perché
+...................
+
+=== Une conséquence du typage dynamique
+
+Même si les éléments d'une liste sont de types différents, on peut
+parcourir cette liste à l'aide de forsans qu'il ne s'ensuive une
+erreur
+
+...................
+>>> divers = [3, 17.25, [5, 'Jean'], 'Linux is not Windoze']
+>>> for item in divers:
+	print item, type(item)
+3 <type 'int'>
+17.25 <type 'float'>
+[5, 'Jean'] <type 'list'>
+...................
+
+Linux is not Windoze <type 'str'>
+
+=== Opérations sur les listes
+
+On peut appliquer aux listes les opérateurs + (concaténation) et *
+(multiplication) :
+
+...................
+>>> fruits = ['orange','citron']
+>>> legumes = ['poireau','oignon','tomate']
+>>> fruits + legumes
+['orange', 'citron', 'poireau', 'oignon', 'tomate']
+>>> fruits * 3
+['orange', 'citron', 'orange', 'citron', 'orange', 'citron']
+...................
+
+L'opérateur * est particulièrement utile pour créer une liste de n
+éléments identiques :
+
+...................
+>>> sept_zeros = [0]*7
+>>> sept_zeros
+[0, 0, 0, 0, 0, 0, 0]
+...................
+
+*Test d'appartenance*
+
+...................
+>>> v = 'tomate'
+>>> if v in legumes:
+print 'OK'
+OK
+...................
+
+[NOTE]
+=======
+Python vous autorise à « étendre » une longue instruction sur plusieurs
+lignes, si vous continuez à encoder quelque chose qui est délimité par
+une paire de parenthèses, de crochets ou d'accolades. Vous pouvez
+traiter ainsi des expressions parenthésées, ou encore la définition de
+longues listes, de grands tuples ou de grands dictionnaires (voir plus
+loin). Le niveau d'indentation n'a pas d'importance : l'interpréteur
+détecte la fin de l'instruction, là où la paire syntaxique est refermée.
+Cette fonctionnalité vous permet d'améliorer la lisibilité de vos
+programmes.
+=======
+
+Exemple :
+
+...................
+couleurs = ['noir', 'brun', 'rouge',
+'orange', 'jaune', 'vert',
+'bleu', 'violet', 'gris', 'blanc']
+...................
+
+*Nombres aléatoires - Histogrammes*
+
+...................
+>>> from random import *
+...................
+
+La fonction ci-dessous permet de créer une liste de nombres réels
+aléatoires, de valeur comprise entre zéro et un. L'argument à fournir est la taille de la liste :
+
+...................
+>>> def list_aleat(n):
+s = [0]*n
+for i in range(n):
+	s[i] = random()
+return s
+...................
+ 
+Avec un seul argument, elle renvoie un entier compris entre zéro et la
+valeur de l'argument diminué d'une unité. Par exemple,
++randrange(6)+ renvoie un nombre compris entre 0 et 5. Avec deux
+arguments, le nombre renvoyé est compris entre la valeur du premier
+argument et la valeur du second argument diminué d'une unité. Par
+exemple, +randrange(2, 8)+ renvoie un nombre compris entre 2 et 7. Si
+l'on ajoute un troisième argument, celui-ci indique que le nombre tiré
+au hasard doit faire partie d'une série limitée d'entiers, séparés les
+uns des autres par un certain intervalle, défini lui-même par ce
+troisième argument. Par exemple, +randrange(3, 13, 3)+ renverra un des
+nombres de la série 3, 6, 9, 12 :
+
+...................
+>>> for i in range(15):
+print random.randrange(3,13,3),
+3 12 6 9 6 6 12 6 3 6 9 3 6 12 12
+...................
+
+Les tuples
+----------
+
+Python propose un type de données appelé *tuple*, qui est assez
+semblable à une liste mais qui n'est pas modifiable.
+
+Du point de vue de la syntaxe, un tuple est une collection d'éléments
+séparés par des virgules :
+
+...................
+>>> tuple = 'a', 'b', 'c', 'd', 'e'
+>>> print tuple
+('a', 'b', 'c', 'd', 'e')
+...................
+
+Bien que cela ne soit pas nécessaire, il est vivement conseillé de
+mettre le tuple en évidence en l'enfermant dans une paire de
+parenthèses, comme l'instruction printde Python le fait elle-même.
+(Il s'agit simplement d'améliorer la lisibilité du code, mais vous savez
+que c'est important) :
+
+...................
+>>> tuple = ('a', 'b', 'c', 'd', 'e')
+...................
+
+Les opérations que l'on peut effectuer sur des tuples sont
+syntaxiquement similaires à celles que l'on effectue sur les listes, si
+ce n'est que les tuples ne sont pas modifiables :
+
+...................
+>>> print tuple[2:4]
+('c', 'd')
+>>> tuple[1:3] = ('x', 'y') ==> * erreur *
+>>> tuple = ('André',) + tuple[1:]
+>>> print tuple
+('André', 'b', 'c', 'd', 'e')
+...................
+
+Les dictionnaires
+-----------------
+
+*Création d'un dictionnaire*
+
+Dans une paire d'accolades. Un dictionnaire vide sera donc noté +{}+ :
+
+...................
+>>> dico = {}
+>>> dico['computer'] = 'ordinateur'
+>>> dico['mouse'] ='souris'
+>>> dico['keyboard'] ='clavier'
+>>> print dico
+{'computer': 'ordinateur', 'keyboard': 'clavier', 'mouse': 'souris'}
+...................
+
+*Opérations sur les dictionnaires*
+
+...................
+>>> invent = {'pommes': 430, 'bananes': 312, 'oranges' : 274,
+'poires' : 137}
+>>> print invent
+{'oranges': 274, 'pommes': 430, 'bananes': 312, 'poires': 137}
+...................
+
+Si le patron décide de liquider toutes les pommes et de ne plus en
+vendre, nous pouvons enlever cette entrée dans le dictionnaire :
+
+...................
+>>> del invent['pommes']
+>>> print invent
+{'oranges': 274, 'bananes': 312, 'poires': 137}
+...................
+
+La fonction +len()+ est utilisable avec un dictionnaire : elle en
+renvoie le nombre d'éléments.
+
+*Les dictionnaires sont des objets*
+
+La méthode +keys()+ renvoie la liste des clés utilisées dans le
+dictionnaire :
+
+...................
+>>> print dico.keys()
+['computer', 'keyboard', 'mouse']
+...................
+
+La méthode +values()+ renvoie la liste des valeurs mémorisées dans le
+dictionnaire :
+
+...................
+>>> print invent.values()
+[274, 312, 137]
+...................
+
+La méthode +has_key()+ permet de savoir si un dictionnaire comprend
+une clé déterminée. On fournit la clé en argument, et la méthode renvoie
+une valeur 'vraie' ou 'fausse' (en fait, 1 ou 0), suivant que la clé est
+présente ou pas :
+
+...................
+>>> print invent.has_key('bananes')
+1
+>>> if invent.has_key('pommes'):
+	print 'nous avons des pommes'
+else:
+	print 'pas de pommes, sorry'
+pas de pommes, sorry
+...................
+
+La méthode +items()+ extrait du dictionnaire une liste équivalente de
+tuples :
+
+...................
+>>> print invent.items()
+[('oranges', 274), ('bananes', 312), ('poires', 137)]
+...................
+ 
+La méthode +copy()+ permet d'effectuer une vraie copie d'un
+dictionnaire.
+
+...................
+>>> magasin = stock.copy()
+>>> magasin['prunes'] = 561
+>>> print magasin
+{'oranges': 274, 'prunes': 561, 'poires': 137}
+>>> print stock
+{'oranges': 274, 'poires': 137}
+>>> print invent
+{'oranges': 274, 'poires': 137}
+...................
+ 
+*Parcours d'un dictionnaire*
+
+...................
+>>> invent ={"oranges":274, "poires":137, "bananes":312}
+>>> for clef in invent:
+... print clef
+poires
+bananes
+oranges
+...................
+ 
+*Les clés ne sont pas nécessairement des chaînes de caractères*
+
+rectangulaire. Nous pouvons pour cela utiliser un dictionnaire, dont les
+clés seront des tuples indiquant les coordonnées x,y de chaque arbre :
+
+...................
+>>> arb = {}
+>>> arb[(1,2)] = 'Peuplier'
+>>> arb[(3,4)] = 'Platane'
+>>> arb[6,5] = 'Palmier'
+>>> arb[5,1] = 'Cycas'
+>>> arb[7,3] = 'Sapin'
+...................
+
+image:Python-notes_fichiers/image004.gif[width="30%"]
+
+nous allons provoquer une erreur :
+
+...................
+>>> print arb[1,2]
+Peuplier
+>>> print arb[2,1]
+* Erreur : KeyError: (2, 1) *
+...................
+
+Pour résoudre ce petit problème, nous pouvons utiliser la méthode
++get()+ :
+
+...................
+>>> print arb.get((1,2),'néant')
+Peuplier
+>>> print arb.get((2,1),'néant')
+néant
+...................
+
+Le premier argument transmis à cette méthode est la clé de recherche, le
+second argument est la valeur que nous voulons obtenir en retour si la
+clé n'existe pas dans le dictionnaire.
+ 
+### Les dictionnaires ne sont pas des séquences
+
+...................
+>>> print arb[1:3]
+* Erreur : KeyError: slice(1, 3, None) *
+...................
+
+Vous avez vu également qu'il suffit d'affecter un nouvel indice (une
+nouvelle clé) pour ajouter une entrée au dictionnaire. Cela ne
+marcherait pas avec les listes46 :
+
+...................
+>>> invent['cerises'] = 987
+>>> print invent
+{'oranges': 274, 'cerises': 987, 'poires': 137}
+>>> liste =['jambon', 'salade', 'confiture', 'chocolat']
+>>> liste[4] ='salami'
+...................
+
+* IndexError: list assignment index out of range *
+
+Du fait qu'ils ne sont pas des séquences, les dictionnaires se révèlent
+donc particulièrement précieux pour gérer des ensembles de données où
+l'on est amené à effectuer fréquemment des ajouts ou des suppressions,
+dans n'importe quel ordre. Ils remplacent avantageusement les listes
+lorsqu'il s'agit de traiter des ensembles de données numérotées, dont
+les numéros ne se suivent pas.
+
+Exemple :
+
+...................
+>>> client = {}
+>>> client[4317] = "Dupond"
+>>> client[256] = "Durand"
+>>> client[782] = "Schmidt"
+...................
+ 
+### Construction d'un histogramme à l'aide d'un dictionnaire
+
+Compter le nombre de caractères dans un texte donné. L'algorithme
+permettant de réaliser ce travail est extraordinairement simple si on le construit sur
+base d'un dictionnaire :
+
+...................
+>>> texte ="les saucisses et saucissons secs sont dans le saloir"
+>>> lettres ={}
+>>> for c in texte:
+	lettres[c] = lettres.get(c, 0) + 1
+>>> print lettres
+{'t': 2, 'u': 2, 'r': 1, 's': 14, 'n': 3, 'o': 3, 'l': 3, 'i': 3, 'd':
+1, 'e': 5, 'c': 3, ' ': 8, 'a': 4}
+...................
+ 
+Pour fignoler notre travail, nous pouvons encore souhaiter afficher
+l'histogramme dans l'ordre alphabétique. Pour ce faire, nous pensons immédiatement à la méthode
++sort()+, mais celle-ci ne peut s'appliquer qu'aux listes. Qu'à cela ne tienne ! Nous avons vu plus haut
+comment nous pouvions convertir un dictionnaire en une liste de tuples :
+
+...................
+>>> lettres_triees = lettres.items()
+>>> lettres_triees.sort()
+>>> print lettres_triees
+[(' ', 8), ('a', 4), ('c', 3), ('d', 1), ('e', 5), ('i', 3), ('l', 3),
+('n', 3), ('o', 3), ('r', 1), ('s', 14), ('t', 2), ('u', 2)]
+...................
+ 
+=== Contrôle du flux d'exécution à l'aide d'un dictionnaire
+
+une variable. Vous pouvez bien évidemment traiter ce
+problème à l'aide d'une série d'instructions if - elif - else, mais
+cela peut devenir assez lourd et inélégant si vous avez affaire à un
+grand nombre de possibilités. Exemple :
+
+...................
+materiau = raw_input("Choisissez le matériau : ")
+if materiau == 'fer':
+	fonctionA()
+elif materiau == 'bois':
+	fonctionC()
+elif materiau == 'cuivre':
+	fonctionB()
+elif materiau == 'pierre':
+	fonctionD()
+elif *... etc ...* 
+...................
+
+...................
+materiau = raw_input("Choisissez le matériau : ")
+dico = {'fer':fonctionA,
+'bois:fonctionC,
+'cuivre':fonctionB,
+'pierre':fonctionD,
+*... etc ...*}
+
+dico[materiau]()
+...................
+
+- La première instruction définit un dictionnaire dicodans lequel
+les clés sont les différentes possibilités pour la variable materiau, et les valeurs, les noms des
+fonctions à invoquer en correspondance. Notez bien qu'il s'agit
+seulement des noms de ces fonctions, qu'il ne faut surtout pas faire
+suivre de parenthèses dans ce cas (Sinon Python exécuterait chacune de
+ces fonctions au moment de la création du dictionnaire).
+
+- La seconde instruction invoque la fonction correspondant au choix
+opéré à l'aide de la variable materiau. Le nom de la fonction est
+extrait du dictionnaire à l'aide de la clé, puis associé à une paire de
+parenthèses. Python reconnaît alors un appel de fonction tout à fait
+classique et l'exécute.
+
+Vous pouvez encore améliorer la technique ci-dessus en remplaçant cette
+instruction par sa variante ci-dessous, qui fait appel à la méthode
++get()+ afin de prévoir le cas où la clé demandée n'existerait pas dans
+le dictionnaire (vous obtenez de cette façon l'équivalent d'une
+instruction elseterminant une longue série de elif) :
+
+...................
+dico.get(materiau, fonctAutre)()
+...................
+
+(Lorsque la la valeur de la variable materiaune correspond à aucune
+clé du dictionnaire, c'est la fonction +fonctAutre()+ qui est
+invoquée).
+
+Classes, objets, attributs
+==========================
+
+concept d'*encapsulation*:
+
+...................
+>>> class Point:
+	"Définition d'un point mathématique"
+>>> p9 = Point()
+>>> print p9.__doc__
+...................
+
+Définition d'un point mathématique
+
+...................
+>>> print p9
+<__main__.Point instance at 0x403e1a8c>
+...................
+ 
+vide. Nous pouvons ajouter des composants à
+cet objet par simple assignation,
+
+...................
+>>> p9.x = 3.0
+>>> p9.y = 4.0
+...................
+
+La bonne manière de procéder sera développée dans le chapitre suivant.
+
+*Passage d'objets comme arguments lors de l'appel d'une fonction*
+
+...................
+>>> def affiche_point(p):
+print "coord. horizontale =", p.x, "coord. verticale =", p.y
+...................
+
+Le paramètre putilisé par cette fonction doit être un objet de type
++Point()+, puisque l'instruction qui suit utilise les variables
+d'instance +p.x+ et +p.y+.
+
+...................
+>>> affiche_point(p9)
+coord. horizontale = 3.0 coord. verticale = 4.0
+...................
+
+Classes, méthodes, héritage
+---------------------------
+
+=== Définition d'une méthode
+
+[source,python]
+----------------------------------------------------------------------
+include::class1.py[]
+----------------------------------------------------------------------
+
+=== La méthode « constructeur »
+
+obligatoirement s'appeler +__init__+
+
+[source,python]
+----------------------------------------------------------------------
+include::class2.py[]
+----------------------------------------------------------------------
+
+...................
+>>> tstart = Time()
+>>> tstart.affiche_heure()
+0:0:0
+...................
+
+points. Notez encore une fois l'utilisation de +self+ pour désigner
+l'instance.
+
+=== Héritage
+
+...................
+>>> class Mammifere:
+caract1 = "il allaite ses petits ;"
+>>> class Carnivore(Mammifere):
+caract2 = "il se nourrit de la chair de ses proies ;"
+>>> class Chien(Carnivore):
+caract3 = "son cri s'appelle aboiement ;"
+...................
+
+=== Héritage et polymorphisme
+
+...................
+class Atome:
+	"atomes simplifiés, choisis parmi les 10 premiers éléments du TP"
+	table =[None, ('hydrogène',0), ('hélium',2), ('lithium',4), ('béryllium',5), ('bore',6), ('carbone',6),('azote',7), ('oxygène',8), ('fluor',10), ('néon',10)]
+
+def __init__(self, nat):
+	"le n° atomique détermine le n. de protons, d'électrons et de neutrons"
+	self.np, self.ne = nat, nat # nat = numéro atomique
+	self.nn = Atome.table[nat][1] # nb. de neutrons trouvés dans table
+def affiche(self):
+	print
+	print "Nom de l'élément :", Atome.table[self.np][0]
+	print "%s protons, %s électrons, %s neutrons" % (self.np, self.ne, self.nn)
+
+class Ion(Atome):
+	"les ions sont des atomes qui ont gagné ou perdu des électrons"
+
+def __init__(self, nat, charge):
+	"le n° atomique et la charge électrique déterminent l'ion"
+	Atome.__init__(self, nat)
+	self.ne = self.ne - charge
+	self.charge = charge
+
+def affiche(self):
+	"cette méthode remplace celle héritée de la classe parente"
+	Atome.affiche(self) # ... tout en l'utilisant elle-même !
+	print "Particule électrisée. Charge =", self.charge
+...................
+
+=== Programme principal :
+
+...................
+a1 = Atome(5)
+a2 = Ion(3, 1)
+a3 = Ion(8, -2)
+a1.affiche()
+a2.affiche()
+a3.affiche()
+...................
+
+Lorsque dans la définition d'une classe, on souhaite faire appel à
+une méthode définie dans une autre classe, on doit lui transmettre la
+référence de l'instance comme premier argument. : ex +Atome.affiche(self)+.
+
+Modules contenant des bibliothèques de classes
+----------------------------------------------
+
+vous nommerez +formes.py+
+
+[source,python]
+----------------------------------------------------------------------
+include::class3.py[]
+----------------------------------------------------------------------
+
+...................
+>>> import formes
+>>> f1 = formes.Rectangle(27, 12)
+>>> f1.mesures()
+Un rectangle de 27 sur 12 a une surface de 27 * 12 = 324
+et un périmètre de (27 + 12) * 2 = 78
+>>> f2 = formes.Carre(13)
+>>> f2.mesures()
+Un carré de 13 sur 13
+a une surface de 13 * 13 = 169
+et un périmètre de (13 + 13) * 2 = 52
+...................
+ 
+[NOTE]
+=======
+rmq : if +__name__ == "__main__"+ : pour choisir si le module est
+appelé tel quel ou en tant que module : donc un module est un objet
+aussi
+=======

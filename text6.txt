@@ -1,0 +1,9 @@
+>>> mots[2:5] = [] # [] désigne une liste vide
+>>> mots
+['jambon','fromage','saucisson', 'ketchup']
+>>> mots[1:3] = ['salade']
+>>> mots
+['jambon', 'salade', 'ketchup']
+>>> mots[1:] = ['mayonnaise', 'poulet', 'tomate']
+>>> mots
+['jambon', 'mayonnaise', 'poulet', 'tomate']

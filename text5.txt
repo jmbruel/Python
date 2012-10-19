@@ -1,0 +1,8 @@
+>>> mots = ['jambon', 'fromage', 'confiture', 'chocolat']
+>>> mots[2:2] =["miel"]
+>>> mots
+['jambon', 'fromage', 'miel', 'confiture', 'chocolat']
+>>> mots[5:5] =['saucisson', 'ketchup']
+>>> mots
+['jambon', 'fromage', 'miel', 'confiture', 'chocolat', 'saucisson',
+'ketchup']
